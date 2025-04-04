@@ -40,20 +40,16 @@ void displayBuffer(char *buffer, int size){
   cout << "\n";
 }
 
-/*int* hexAsArray(int hexVal, int bytes){
-  int size = bytes/2;
-  int *arr = new int[size];
-  for(int i = 0; i < size; ++i) arr[i] = (hexVal >> (size-i-1)*8) & 0xFF;
-  return arr;
-}*/
+void clearBuffer(char *buffer, int size){
+  for(int j = 0; j < size; j++){
+    buffer[j] = 0x00;
+  } 
+}
 
-int* fromStrToHexStrArr(string hexStr, int bytes){
-  int size = bytes/2;
-  int *arr = new int[size];
-  if(strcmp(hexStr.substr(0, 2).c_str(), "0x") == 0){
-    hexStr.erase(hexStr.begin(), hexStr.begin()+2);
-  }
-  for(int i = 0; i < size;++i){
+int* fromStrToHexStrArr(string hexStr, int numOfBytes){
+  int *arr = new int[numOfBytes];
+  //if(strcmp(hexStr.substr(0, 2).c_str(), "0x") == 0) hexStr.erase(hexStr.begin(), hexStr.begin()+2);
+  for(int i = 0; i < numOfBytes;++i){
     string segment = hexStr.substr(i*2, 2);
     stringstream ss;
     ss << std::hex << segment;
@@ -92,56 +88,16 @@ APGBPalette getPaletteFromCSV(string filename){
         string trimmedWord = trim(word);
         row.push_back(trimmedWord); 
       } 
-      //for(int i = 0; i < 5; i++) cout << row[i] << " ";
-      //cout << "\n";
-      
-      /*string **pt = nullptr;
-      //cout << strcmp(row[0].c_str(), "BG") << endl;
-      //if(strcmp(row[0].c_str(), "BG") == 0 || strcmp(row[0].c_str(),"bg") == 0){
-            if(count == 0){
-                pt = &ap.bg;
-            //}else if(strcmp(row[0].c_str(), "OBJ0") == 0){
-            }else if(count == 1){
-                pt = &ap.obj0;
-            //}else if(strcmp(row[0].c_str(), "OBJ1") == 0){
-            }else if(count == 2){
-                pt = &ap.obj1;
-            //}else if(strcmp(row[0].c_str(), "WINDOW") == 0){
-            }else if(count == 3){    
-                pt = &ap.window;
-            }
-            count++;
-            if(pt != nullptr){
-                pt[0] = &row[1];
-                pt[1] = &row[2];
-                pt[2] = &row[3];
-                pt[3] = &row[4];
-                for(int x = 0; x < 4; x++){
-                    cout << pt[x] << " ";
-                }
-                cout << "\n";
-            }*/
-      if(strcmp(row[0].c_str(), "BG") == 0 || strcmp(row[0].c_str(),"bg") == 0){
-        ap.bg[0] = string(row[1]);
-        ap.bg[1] = string(row[2]);
-        ap.bg[2] = row[3];
-        ap.bg[3] = row[4];
-      }else if(strcmp(row[0].c_str(), "OBJ0") == 0 || strcmp(row[0].c_str(),"obj0") == 0){
-        ap.obj0[0] = row[1];
-        ap.obj0[1] = row[2];
-        ap.obj0[2] = row[3];
-        ap.obj0[3] = row[4];
-      }else if(strcmp(row[0].c_str(), "OBJ1") == 0 || strcmp(row[0].c_str(),"obj1") == 0){
-        ap.obj1[0] = row[1];
-        ap.obj1[1] = row[2];
-        ap.obj1[2] = row[3];
-        ap.obj1[3] = row[4];
-      }else if(strcmp(row[0].c_str(), "WINDOW") == 0 || strcmp(row[0].c_str(),"window") == 0){
-        ap.window[0] = row[1];
-        ap.window[1] = row[2];
-        ap.window[2] = row[3];
-        ap.window[3] = row[4];
-      }
+      string *pt;
+      auto pType = row[0].c_str();
+      if(strcmp(pType , "BG") == 0 || strcmp(pType ,"bg") == 0)              pt = ap.bg;
+      else if(strcmp(pType , "OBJ0") == 0 || strcmp(pType ,"obj0") == 0)     pt = ap.obj0;
+      else if(strcmp(pType , "OBJ1") == 0 || strcmp(pType ,"obj1") == 0)     pt = ap.obj1;
+      else if(strcmp(pType , "WINDOW") == 0 || strcmp(pType ,"window") == 0) pt = ap.window;
+      pt[0] = row[1];
+      pt[1] = row[2];
+      pt[2] = row[3];
+      pt[3] = row[4];
     }
   }
   else cout << "Failed to create file: " << filepath << endl;
@@ -149,48 +105,37 @@ APGBPalette getPaletteFromCSV(string filename){
 }
 
 char* APGBFormat(APGBPalette p, int size){
-  char *buffer = new char[size];
-  for(int j = 0; j < size; j++) buffer[j] = 0x00;
-
-  int idx = 0;
+  string data = "";
   for(int a = 0; a < 4; a++){
-    int *temp = fromStrToHexStrArr(p.bg[a], 6);
-    for(int b = 0; b < 3; b++){
-      buffer[idx] = temp[b];
-      idx++;
+    if(strcmp(p.bg[a].substr(0, 2).c_str(), "0x") == 0){
+      p.bg[a].erase(p.bg[a].begin(), p.bg[a].begin()+2);
     }
-  }
+    data += p.bg[a];
+  } 
   for(int c = 0; c < 4; c++){
-    int *temp = fromStrToHexStrArr(p.obj0[c], 6);
-    for(int d = 0; d < 3; d++){
-      buffer[idx] = temp[d];
-      idx++;
+    if(strcmp(p.obj0[c].substr(0, 2).c_str(), "0x") == 0){
+      p.obj0[c].erase(p.obj0[c].begin(), p.obj0[c].begin()+2);
     }
-  }
+    data += p.obj0[c];
+  } 
   for(int e = 0; e < 4; e++){
-    int *temp = fromStrToHexStrArr(p.obj1[e], 6);
-    for(int f = 0; f < 3; f++){
-      buffer[idx] = temp[f];
-      idx++;
+    if(strcmp(p.obj1[e].substr(0, 2).c_str(), "0x") == 0){
+      p.obj1[e].erase(p.obj1[e].begin(), p.obj1[e].begin()+2);
     }
+    data += p.obj1[e];
   }
-  for(int g = 0; g < 4; g++){
-    int *temp = fromStrToHexStrArr(p.window[g], 6);
-    for(int h = 0; h < 3; h++){
-      buffer[idx] = temp[h];
-      idx++;
+  for(int g = 0; g < 4; g++) {
+    if(strcmp(p.window[g].substr(0, 2).c_str(), "0x") == 0){
+      p.window[g].erase(p.window[g].begin(), p.window[g].begin()+2);
     }
+    data += p.window[g];
   }
-  int *temp = fromStrToHexStrArr(lcdOff, 6);
-  for (int i = 0; i < 3; i++){
-    buffer[idx] = temp[i];
-    idx++;
-  }
-  temp = fromStrToHexStrArr(footer, 10);
-  for (int i = 0; i < 5; i++){
-    buffer[idx] = temp[i];
-    idx++;
-  }
+  data += lcdOff + footer;
+  
+  int *temp = fromStrToHexStrArr(data, size);
+  char *buffer = new char[size];
+  clearBuffer(buffer, size);
+  for(int i = 0; i < size; i++) buffer[i] = temp[i];
   //displayBuffer(buffer, p.numOfBytes);
   return buffer;
 }
@@ -209,7 +154,7 @@ void savePalette(string filename, APGBPalette p){
 }
 
 int main(){
-  string filename = "test2";
+  string filename = "test";
   APGBPalette pal = getPaletteFromCSV(filename);
   savePalette(filename, pal);
 }
