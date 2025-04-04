@@ -1,0 +1,8 @@
+# VS Code
+settings.json
+
+# C Files
+*.o
+
+# APGB Converter
+*.pal

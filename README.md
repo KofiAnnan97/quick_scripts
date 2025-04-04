@@ -12,7 +12,7 @@ A collection of scripts to accomplish various tasks.
 | [PoseWithKalman](/Purdue_Research/PoseWithKalman.py) | Apply acceleration data in a Kalman filter to pose data from CSV |
 | [kalman2](/Purdue_Research/kalman2.py) | A kalman filter |
 | [covariance](/Purdue_Research/covariance.py) | Calculate covariance |
-
+| [APGBConverter](/apgb_converter/converter.cpp) | Converts hexadecimal colors into a .pal file that Analogue Pocket supports for Gameboy palettes|
 
 
 ### External Scripts Directory
