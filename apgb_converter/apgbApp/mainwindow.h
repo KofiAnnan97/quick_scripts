@@ -28,19 +28,23 @@ public:
     QString gethexColor();
     APGB_Palette importPaletteFromCSV(string filename);
     APGB_Palette importPaletteFromPAL(string filename);
+    APGB_Palette importPaletteJASCTxt(string filename);
+    APGB_Palette importPaletteJASCHex(string filename);
     APGB_Palette getPalette(string *bg, string *obj0, string *obj1, string *window);
     char* APGBFormat(APGB_Palette p, int size);
     void savePalette(string filename, APGB_Palette p);
 
     int* fromStrToHexStrArr(string str, int numOfBytes);
-    string fromHexStrToStr(string hexStr, int numOfBtyes);
+    string fromHexToStr(string hexStr);
     string trim(string data);
     void clearBuffer(char *buffer, int size);
     bool isKeyword(string word);
 
     string footer, lcdOff;
+    QString darkest, brightest;
 
 private slots:
+    // Editor tab
     void on_btn_import_clicked();
     void on_btn_save_clicked();
 
@@ -77,6 +81,12 @@ private slots:
     void on_txt_window_1_textChanged();
     void on_txt_window_2_textChanged();
     void on_txt_window_3_textChanged();
+
+    // Converter tab
+    void on_btn_convert_reset_clicked();
+    void on_btn_get_load_clicked();
+    void on_btn_get_save_clicked();
+    void on_btn_convert_save_clicked();
 
 private:
     Ui::MainWindow *ui;
