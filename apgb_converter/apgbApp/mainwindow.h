@@ -27,9 +27,8 @@ public:
     ~MainWindow();
     QString gethexColor();
     APGB_Palette importPaletteFromCSV(string filename);
-    APGB_Palette importPaletteFromPAL(string filename);
-    APGB_Palette importPaletteJASCTxt(string filename);
-    APGB_Palette importPaletteJASCHex(string filename);
+    APGB_Palette importPaletteFromAPGB(string filename);
+    APGB_Palette importPaletteJASC(string filename);
     APGB_Palette getPalette(string *bg, string *obj0, string *obj1, string *window);
     char* APGBFormat(APGB_Palette p, int size);
     void savePalette(string filename, APGB_Palette p);

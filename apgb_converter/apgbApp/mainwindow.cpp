@@ -76,25 +76,22 @@ int* MainWindow::fromStrToHexStrArr(string str, int numOfBytes){
 }
 
 string MainWindow::fromHexToStr(string hexStr){
-    std::ostringstream ss; //(hexStr);
-    //ss << static_cast<int>(temp);
-    //ss >> std::hex >> i;
-
-    //qDebug() << i;
-    //stringstream ss;
-    //ss << std::hex << hexStr;
+    //qDebug() << hexStr;
+    char hexIdx[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                         'A', 'B', 'C', 'D', 'E', 'F'};
+    int hexVals[2];
     string str;
     for (size_t i = 0; i < hexStr.length(); i += 1) {
-        char byte = hexStr.substr(i, 1).c_str()[0];
-        //qDebug() << byte;
-        ss << static_cast<int>(byte);
-        string temp = ss.str();
-       // qDebug() << temp;
-        //char ch = (int)strtol(byte.c_str(), nullptr, 16);
-        //str.push_back(ch);
+        string byte = hexStr.substr(i, 1);
+        unsigned temp = (unsigned char)byte.c_str()[0];
+        hexVals[1] = temp%16;
+        temp /= 16;
+        hexVals[0] = temp%16;
+        str.push_back(hexIdx[hexVals[0]]);
+        str.push_back(hexIdx[hexVals[1]]);
     }
-    //return str;
-    return hexStr.c_str();
+    //qDebug() << str;
+    return str;
 }
 
 string MainWindow::trim(string data){
@@ -137,7 +134,8 @@ APGB_Palette MainWindow::importPaletteFromCSV(string filename){
                 if(!this->isKeyword(trimmedWord) && trimmedWord.substr(0, 2) == "0x"){
                     trimmedWord.erase(0, 2);
                     trimmedWord = "#" + trimmedWord;
-                }else if(!this->isKeyword(trimmedWord) && trimmedWord[0] != '#' && trimmedWord.size() == 6){
+                }
+                else if(!this->isKeyword(trimmedWord) && trimmedWord[0] != '#'){
                     trimmedWord = "#" + trimmedWord;
                 }
                 row.push_back(trimmedWord);
@@ -158,7 +156,7 @@ APGB_Palette MainWindow::importPaletteFromCSV(string filename){
     return ap;
 }
 
-APGB_Palette MainWindow::importPaletteFromPAL(string filename){
+APGB_Palette MainWindow::importPaletteFromAPGB(string filename){
     APGB_Palette ap;
     ap.bg = new string[4];
     ap.obj0 = new string[4];
@@ -168,9 +166,7 @@ APGB_Palette MainWindow::importPaletteFromPAL(string filename){
     pal.open(filename, ios::binary | ios::in);
     unsigned int x;
     if(pal.is_open()){
-        pal.read(reinterpret_cast<char*>(&x), sizeof(unsigned int));
-        qDebug() << x;
-        /*string line, word, temp;
+        string line, word, temp;
         while(pal >> temp){
             stringstream ss;
             ss << std::hex << temp;
@@ -178,58 +174,53 @@ APGB_Palette MainWindow::importPaletteFromPAL(string filename){
             qDebug() << line << " " << line.size();
             if(line.size() == 56){
                 line.erase(48,8);
-                qDebug() << line[0];
-                unsigned int result = (line[0] << 16) | (line[1] << 8) | (line[2]);
-                qDebug() << result;
-                ap.bg[0] = "#"+this->fromHexToStr(line.substr(9, 3));
-                //qDebug() << ap.bg[0];
-                ap.bg[1] = "#"+line.substr(3, 3);
-                ap.bg[2] = "#"+line.substr(6, 3);
-                ap.bg[3] = "#"+line.substr(9, 3);
-                ap.obj0[0] = "#"+line.substr(12,3);
-                ap.obj0[1] = "#"+line.substr(15,3);
-                ap.obj0[2] = "#"+line.substr(18,3);
-                ap.obj0[3] = "#"+line.substr(21,3);
-                ap.obj1[0] = "#"+line.substr(24,3);
-                ap.obj1[1] = "#"+line.substr(27,3);
-                ap.obj1[2] = "#"+line.substr(30,3);
-                ap.obj1[3] = "#"+line.substr(33,3);
-                ap.window[0] = "#"+line.substr(36,3);
-                ap.window[1] = "#"+line.substr(39,3);
-                ap.window[2] = "#"+line.substr(42,3);
-                ap.window[3] = "#"+line.substr(45,3);
+                ap.bg[0] = "#"+this->fromHexToStr(line.substr(0, 3));
+                ap.bg[1] = "#"+this->fromHexToStr(line.substr(3, 3));
+                ap.bg[2] = "#"+this->fromHexToStr(line.substr(6, 3));
+                ap.bg[3] = "#"+this->fromHexToStr(line.substr(9, 3));
+                ap.obj0[0] = "#"+this->fromHexToStr(line.substr(12,3));
+                ap.obj0[1] = "#"+this->fromHexToStr(line.substr(15,3));
+                ap.obj0[2] = "#"+this->fromHexToStr(line.substr(18,3));
+                ap.obj0[3] = "#"+this->fromHexToStr(line.substr(21,3));
+                ap.obj1[0] = "#"+this->fromHexToStr(line.substr(24,3));
+                ap.obj1[1] = "#"+this->fromHexToStr(line.substr(27,3));
+                ap.obj1[2] = "#"+this->fromHexToStr(line.substr(30,3));
+                ap.obj1[3] = "#"+this->fromHexToStr(line.substr(33,3));
+                ap.window[0] = "#"+this->fromHexToStr(line.substr(36,3));
+                ap.window[1] = "#"+this->fromHexToStr(line.substr(39,3));
+                ap.window[2] = "#"+this->fromHexToStr(line.substr(42,3));
+                ap.window[3] = "#"+this->fromHexToStr(line.substr(45,3));
                 break;
             }
-        }*/
+        }
         pal.close();
     }
     else qDebug() << "Failed to find file: " << filename;
     return ap;
 }
 
-APGB_Palette MainWindow::importPaletteJASCTxt(string filename){
+APGB_Palette MainWindow::importPaletteJASC(string filename){
     APGB_Palette ap;
     ap.bg = new string[4];
     ap.obj0 = new string[4];
     ap.obj1 = new string[4];
     ap.window = new string[4];
     vector<QString> colorVals;
-    ifstream txt;
+    ifstream jasc;
     string jascId, jascVersion,line;
     int numOfPalettes;
-    string paletteNumError = "This script only supports 4, 8 or 16 color palettes for the JASC PAL format.";
-    txt.open(filename);
-    if(txt.is_open()){
-        getline(txt, jascId);
-        getline(txt, jascVersion);
-        getline(txt, line);
+    jasc.open(filename);
+    if(jasc.is_open()){
+        getline(jasc, jascId);
+        getline(jasc, jascVersion);
+        getline(jasc, line);
         numOfPalettes = stoi(line);
         //qDebug() << jascId.erase(jascId.size()-1, 1) << " " << jascVersion.erase(jascVersion.size()-1, 1) << " " << numOfPalettes;
         if(numOfPalettes != 4 && numOfPalettes != 8 && numOfPalettes != 16){
-            qDebug() << paletteNumError;
+            qDebug() << "This script only supports 4, 8 or 16 color palettes for the JASC PAL format.";
         }
         else{
-            while(getline(txt, line)){
+            while(getline(jasc, line)){
                 line.erase(line.size()-1, 1);
                 stringstream ss(line);
                 string val;
@@ -245,22 +236,22 @@ APGB_Palette MainWindow::importPaletteJASCTxt(string filename){
                 qDebug() << "The number of color palettes are configured incorrectly. Please check the file.";
             }
             else if(numOfPalettes == 4){
-                ap.bg[0] = this->darkest.toStdString();
+                ap.bg[0] = this->darkest.removeFirst().toStdString();
                 ap.bg[1] = colorVals[0].toStdString();
                 ap.bg[2] = colorVals[0].toStdString();
-                ap.bg[3] = this->brightest.toStdString();
-                ap.obj0[0] = this->darkest.toStdString();
+                ap.bg[3] = this->brightest.removeFirst().toStdString();
+                ap.obj0[0] = this->darkest.removeFirst().toStdString();
                 ap.obj0[1] = colorVals[1].toStdString();
                 ap.obj0[2] = colorVals[1].toStdString();
-                ap.obj0[3] = this->brightest.toStdString();
-                ap.obj1[0] = this->darkest.toStdString();
+                ap.obj0[3] = this->brightest.removeFirst().toStdString();
+                ap.obj1[0] = this->darkest.removeFirst().toStdString();
                 ap.obj1[1] = colorVals[2].toStdString();
                 ap.obj1[2] = colorVals[2].toStdString();
-                ap.obj1[3] = this->brightest.toStdString();
-                ap.window[0] = this->darkest.toStdString();
+                ap.obj1[3] = this->brightest.removeFirst().toStdString();
+                ap.window[0] = this->darkest.removeFirst().toStdString();
                 ap.window[1] = colorVals[3].toStdString();
                 ap.window[2] = colorVals[3].toStdString();
-                ap.window[3] = this->brightest.toStdString();
+                ap.window[3] = this->brightest.removeFirst().toStdString();
             }
             else if(numOfPalettes == 8){
                 ap.bg[0] = this->darkest.toStdString();
@@ -298,14 +289,9 @@ APGB_Palette MainWindow::importPaletteJASCTxt(string filename){
                 ap.window[3] = colorVals[15].toStdString();
             }
         }
-        txt.close();
+        jasc.close();
     }
     else qDebug() << "Failed to find file: " << filename;
-    return ap;
-}
-
-APGB_Palette MainWindow::importPaletteJASCHex(string filename){
-    APGB_Palette ap;
     return ap;
 }
 
@@ -315,11 +301,17 @@ char* MainWindow::APGBFormat(APGB_Palette p, int size){
       if(strcmp(p.bg[a].substr(0, 2).c_str(), "0x") == 0){
         p.bg[a].erase(p.bg[a].begin(), p.bg[a].begin()+2);
       }
+      else if(strcmp(p.bg[a].substr(0,1).c_str(), "#") == 0){
+          p.bg[a].erase(p.bg[a].begin(), p.bg[a].begin()+1);
+      }
       data += p.bg[a];
     } 
     for(int c = 0; c < 4; c++){
       if(strcmp(p.obj0[c].substr(0, 2).c_str(), "0x") == 0){
         p.obj0[c].erase(p.obj0[c].begin(), p.obj0[c].begin()+2);
+      }
+      else if(strcmp(p.obj0[c].substr(0,1).c_str(), "#") == 0){
+          p.obj0[c].erase(p.obj0[c].begin(), p.obj0[c].begin()+1);
       }
       data += p.obj0[c];
     } 
@@ -327,16 +319,22 @@ char* MainWindow::APGBFormat(APGB_Palette p, int size){
       if(strcmp(p.obj1[e].substr(0, 2).c_str(), "0x") == 0){
         p.obj1[e].erase(p.obj1[e].begin(), p.obj1[e].begin()+2);
       }
+      else if(strcmp(p.obj1[e].substr(0,1).c_str(), "#") == 0){
+          p.obj1[e].erase(p.obj1[e].begin(), p.obj1[e].begin()+1);
+      }
       data += p.obj1[e];
     }
     for(int g = 0; g < 4; g++) {
       if(strcmp(p.window[g].substr(0, 2).c_str(), "0x") == 0){
         p.window[g].erase(p.window[g].begin(), p.window[g].begin()+2);
       }
+      else if(strcmp(p.window[g].substr(0,1).c_str(), "#") == 0){
+          p.window[g].erase(p.window[g].begin(), p.window[g].begin()+1);
+      }
       data += p.window[g];
     }
     data += lcdOff + footer;
-    qDebug() << data;
+    qDebug() << "Buffer:" << data;
 
     int *temp = fromStrToHexStrArr(data, size);
     char *buffer = new char[size];
@@ -366,8 +364,7 @@ void MainWindow::savePalette(string filename, APGB_Palette p){
 
 void MainWindow::on_btn_import_clicked()
 {
-    //QString filename = QFileDialog::getOpenFileName(this, tr("Import"), tr(""));
-    QString filename = "/home/eglinux/Github/quick_scripts/apgb_converter/jasc_text8.txt";
+    QString filename = QFileDialog::getOpenFileName(this, tr("Import"), tr(""));
     qDebug() << "Opening file: " << filename;
     APGB_Palette p;
     bool canPopulate = false;
@@ -375,10 +372,12 @@ void MainWindow::on_btn_import_clicked()
         p = this->importPaletteFromCSV(filename.toStdString());
         canPopulate = true;
     }
-
+    else if(filename.endsWith(".pal")){
+        p = this->importPaletteFromAPGB(filename.toStdString());
+        canPopulate = true;
+    }
     else if(filename.endsWith(".txt")){
-        //p = this->importPaletteFromPAL(filename.toStdString());
-        p = this->importPaletteJASCTxt(filename.toStdString());
+        p = this->importPaletteJASC(filename.toStdString());
         canPopulate = true;
     }
     else canPopulate = false;
@@ -440,37 +439,37 @@ void MainWindow::on_btn_save_clicked()
     QString window_3 = ui->txt_window_3->toPlainText();
 
     if(bg_0.isEmpty()) errorMsg += "bg_0\n";
-    else bg_0.remove(0,1);
+    else if(bg_0.startsWith("#")) bg_0.remove(0,1);
     if(bg_1.isEmpty()) errorMsg += "bg_1\n";
-    else bg_1.remove(0,1);
+    else if(bg_1.startsWith("#")) bg_1.remove(0,1);
     if(bg_2.isEmpty()) errorMsg += "bg_2\n";
-    else bg_2.remove(0,1);
+    else if(bg_2.startsWith("#")) bg_2.remove(0,1);
     if(bg_3.isEmpty()) errorMsg += "bg_3\n";
-    else bg_3.remove(0,1);
+    else if(bg_3.startsWith("#")) bg_3.remove(0,1);
     if(obj0_0.isEmpty()) errorMsg += "obj0_0\n";
-    else obj0_0.remove(0,1);
+    else if(obj0_0.startsWith("#")) obj0_0.remove(0,1);
     if(obj0_1.isEmpty()) errorMsg += "obj0_1\n";
-    else obj0_1.remove(0,1);
+    else if(obj0_1.startsWith("#")) obj0_1.remove(0,1);
     if(obj0_2.isEmpty()) errorMsg += "obj0_2\n";
-    else obj0_2.remove(0,1);
+    else if(obj0_2.startsWith("#")) obj0_2.remove(0,1);
     if(obj0_3.isEmpty()) errorMsg += "obj0_3\n";
-    else obj0_3.remove(0,1);
+    else if(obj0_3.startsWith("#")) obj0_3.remove(0,1);
     if(obj1_0.isEmpty()) errorMsg += "obj1_0\n";
-    else obj1_0.remove(0,1);
+    else if(obj1_0.startsWith("#")) obj1_0.remove(0,1);
     if(obj1_1.isEmpty()) errorMsg += "obj1_1\n";
-    else obj1_1.remove(0,1);
+    else if(obj1_1.startsWith("#")) obj1_1.remove(0,1);
     if(obj1_2.isEmpty()) errorMsg += "obj1_2\n";
-    else obj1_2.remove(0,1);
+    else if(obj1_2.startsWith("#")) obj1_2.remove(0,1);
     if(obj1_3.isEmpty()) errorMsg += "obj1_3\n";
-    else obj1_3.remove(0,1);
+    else if(obj1_3.startsWith("#")) obj1_3.remove(0,1);
     if(window_0.isEmpty()) errorMsg += "window_0\n";
-    else window_0.remove(0,1);
+    else if(window_0.startsWith("#")) window_0.remove(0,1);
     if(window_1.isEmpty()) errorMsg += "window_1\n";
-    else window_1.remove(0,1);
+    else if(window_0.startsWith("#")) window_1.remove(0,1);
     if(window_2.isEmpty()) errorMsg += "window_2\n";
-    else window_2.remove(0,1);
+    else if(window_0.startsWith("#")) window_2.remove(0,1);
     if(window_3.isEmpty()) errorMsg += "window_3\n";
-    else window_3.remove(0,1);
+    else if(window_0.startsWith("#")) window_3.remove(0,1);
 
     qDebug() << "Retrieved data: \n" << bg_0 << " " << bg_1 << " " << bg_2 << " " << bg_3;
     qDebug() << obj0_0 << " " << obj0_1 << " " << obj0_2 << " " << obj0_3;
@@ -733,11 +732,9 @@ void MainWindow::on_txt_window_3_textChanged()
 
 void MainWindow::on_btn_convert_reset_clicked()
 {
-    ui->r_csv->clicked(true);
     ui->txt_convert_load->setText("");
     ui->txt_convert_save->setText("");
 }
-
 
 void MainWindow::on_btn_get_load_clicked()
 {
@@ -745,13 +742,11 @@ void MainWindow::on_btn_get_load_clicked()
     ui->txt_convert_load->setText(loadFilename);
 }
 
-
 void MainWindow::on_btn_get_save_clicked()
 {
     QString saveFilename = QFileDialog::getSaveFileName(this, tr("Save Palette"), tr(""));
     ui->txt_convert_save->setText(saveFilename);
 }
-
 
 void MainWindow::on_btn_convert_save_clicked()
 {
@@ -760,11 +755,14 @@ void MainWindow::on_btn_convert_save_clicked()
     QString saveFile = ui->txt_convert_save->toPlainText();
 
     if(!loadFile.isEmpty()){
-        if(ui->r_csv->isChecked())           p = this->importPaletteFromCSV(loadFile.toStdString());
-        else if(ui->r_jasc_hex->isChecked()) p = this->importPaletteJASCHex(loadFile.toStdString());
-        else if(ui->r_jasc_txt->isChecked()) p = this->importPaletteJASCTxt(loadFile.toStdString());
+        if(ui->r_csv->isChecked())        p = this->importPaletteFromCSV(loadFile.toStdString());
+        else if(ui->r_jasc->isChecked())  p = this->importPaletteJASC(loadFile.toStdString());
 
-        if(!saveFile.isEmpty()) this->savePalette(saveFile.toStdString(), p);
+        if(!saveFile.isEmpty()){
+            this->savePalette(saveFile.toStdString(), p);
+            ui->txt_convert_load->setText("");
+            ui->txt_convert_save->setText("");
+        }
         else qDebug() << "No save path was given.";
     }
     else qDebug() << "No load path was given.";

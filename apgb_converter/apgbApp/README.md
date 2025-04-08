@@ -1,5 +1,5 @@
 # APGB Converter
-This script is designed to provied a more convenient way of creating custom GB palattes for the Analogue Pocket.
+A tool designed to provied a convenient way of creating custom GB palattes for the Analogue Pocket or BGB Emulator.
 
 ## Overview
 - [Quick Start](#quick-start)
@@ -11,12 +11,21 @@ This script is designed to provied a more convenient way of creating custom GB p
 
 
 ## Functionality
-- **Generate** := Create a pal file (hex-based) for Analogue Pocket using a grahical interface .
+- **Editor** := Create a pal file (hex-based) for Analogue Pocket using a grahical interface .
 ![](/apgb_converter/apgbApp/img/editor.png)
 
-- **Import** := Converts data into appropriate format and allows for editting in the graphical interface. 
-    - `Supported file types`: **CSV**, **JASC**(Text)
-    - for the JASC format the colors are applied in a sequential manner to the palettes and respective intentisities.
+- **Import** := Found in the Editor tab. Allows for the conversion of data into the appropriate format and provides the ability to update the colors via the graphical interface. 
+    - `Supported file types`: **CSV**, **PAL** (APGB and JASC format)
+    - CSV file structure:
+       ```
+       1, BG, 0x000000, 0x52528C, 0x8C8CDE, 0xFFFFFF
+       2, OBJ0, 0x000000, 0x944A4A, 0xFF8484, 0xFFFFFF
+       3, OBJ1, 0x000000, 0x843100, 0xFFAD63, 0xFFFFFF
+       4, WINDOW, 0x000000, 0x555555, 0xAAAAAA, 0xFFFFFF
+       ```
+       - The order is not strict as long as the keyword is first
+       - 24-bit colors can have a leading `0x`, `#`, or nothing
+    - JASC format:  The color palettes are applied in a sequential manner for each palette and its respective intentisities as shown [here](#example).
 
 - **Convert** := For simple conversions that do not require changes to the colors used.
 ![](/apgb_converter/apgbApp/img/convert.png)
