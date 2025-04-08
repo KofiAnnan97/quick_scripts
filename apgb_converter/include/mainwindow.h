@@ -5,7 +5,6 @@
 #include <QString>
 #include <QColor>
 
-#include "palettes.h"
 #include "fileimporter.h"
 #include "save.h"
 
