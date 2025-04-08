@@ -1,5 +1,5 @@
 # APGB Converter
-A tool designed to provied a convenient way of creating custom GB palattes for the Analogue Pocket or BGB Emulator.
+A tool designed to provide a convenient way of creating custom GB palettes for the Analogue Pocket or BGB Emulator.
 
 ## Overview
 - [Quick Start](#quick-start)
@@ -8,11 +8,24 @@ A tool designed to provied a convenient way of creating custom GB palattes for t
 - [Resources](#resources)
 
 ## Quick Start
+#### Installation
+- QT6 (and supported qmake)
 
+#### Execute
+1. Open the directory for this project.
+2. Run the following commands:
+```
+export QT_VERSION_MAJOR=6
+qmake -project 
+qmake
+make
+```
+This is should generate a executable for the application.
+3. Run application
 
 ## Functionality
 - **Editor** := Create a pal file (hex-based) for Analogue Pocket using a grahical interface .
-![](/apgb_converter/apgbApp/img/editor.png)
+![](/apgb_converter/img/editor.png)
 
 - **Import** := Found in the Editor tab. Allows for the conversion of data into the appropriate format and provides the ability to update the colors via the graphical interface. 
     - `Supported file types`: **CSV**, **PAL** (APGB and JASC format)
@@ -26,9 +39,10 @@ A tool designed to provied a convenient way of creating custom GB palattes for t
        - The order is not strict as long as the keyword is first
        - 24-bit colors can have a leading `0x`, `#`, or nothing
     - JASC format:  The color palettes are applied in a sequential manner for each palette and its respective intentisities as shown [here](#example).
+        - only supports 4, 8, or 16 colors
 
 - **Convert** := For simple conversions that do not require changes to the colors used.
-![](/apgb_converter/apgbApp/img/convert.png)
+![](/apgb_converter/img/convert.png)
 
 ## Format
 - 56 bytes

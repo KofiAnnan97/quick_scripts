@@ -1,7 +1,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "save.h"
+#include "include/save.h"
 
 FileSave::FileSave() {
     footer = "8141504742";
@@ -63,7 +63,7 @@ char* FileSave::APGBFormat(APGB_Palette p, int size){
         data += p.window[g];
     }
     data += this->lcdOff + this->footer;
-    qDebug() << "Buffer:" << data;
+    //qDebug() << "Buffer:" << data;
 
     int *temp = fromStrToHexStrArr(data, size);
     char *buffer = new char[size];
@@ -88,5 +88,5 @@ void FileSave::savePalette(string filename, APGB_Palette p){
         df.write(buffer, p.numOfBytes);
         df.close();
     }
-    else qDebug() << "Failed to create file: " << filename;
+    //else qDebug() << "Failed to create file: " << filename;
 }

@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "include/mainwindow.h"
 #include "./ui/ui_mainwindow.h"
 #include <QTextEdit>
 #include <QColorDialog>
@@ -7,6 +7,7 @@
 #include <QDialog>
 #include <QFileDialog>
 #include <string>
+#include <QMessageBox>
 
 using namespace std;
 
@@ -55,22 +56,25 @@ QString MainWindow::gethexColor(){
 
 void MainWindow::on_btn_import_clicked(){
     QString filename = QFileDialog::getOpenFileName(this, tr("Import"), tr(""));
-    qDebug() << "Opening file: " << filename;
     APGB_Palette p;
     bool canPopulate = false;
+    string fn = filename.toStdString();
     if(filename.endsWith(".csv")){
-        p = this->importer.importPaletteFromCSV(filename.toStdString());
+        p = this->importer.importPaletteFromCSV(fn);
         canPopulate = true;
     }
     else if(filename.endsWith(".pal")){
-        p = this->importer.importPaletteFromAPGB(filename.toStdString());
-        canPopulate = true;
+        if(this->importer.isJASCFormat(fn)){
+            p = this->importer.importPaletteJASC(filename.toStdString());
+            canPopulate = true;
+        }
+        else if(this->importer.isAPGBFormat(fn)){
+            p = this->importer.importPaletteFromAPGB(filename.toStdString());
+            canPopulate = true;
+        }
+        else QMessageBox::critical(this, "Format Error", "There was an issue parsing " + filename);
     }
-    else if(filename.endsWith(".txt")){
-        p = this->importer.importPaletteJASC(filename.toStdString());
-        canPopulate = true;
-    }
-    else canPopulate = false;
+    else QMessageBox::critical(this, "File Type Error", filename + " must use one of the following extensions:\n\t.csv\n\t.pal");
 
     if(canPopulate == true){
         ui->txt_bg_0->setText(QString::fromStdString(p.bg[0]));
@@ -161,13 +165,9 @@ void MainWindow::on_btn_save_clicked()
     if(window_3.isEmpty()) errorMsg += "window_3\n";
     else if(window_0.startsWith("#")) window_3.remove(0,1);
 
-    qDebug() << "Retrieved data: \n" << bg_0 << " " << bg_1 << " " << bg_2 << " " << bg_3;
-    qDebug() << obj0_0 << " " << obj0_1 << " " << obj0_2 << " " << obj0_3;
-    qDebug() << obj1_0 << " " << obj1_1 << " " << obj1_2 << " " << obj1_3;
-    qDebug() << window_0 << " " << window_1 << " " << window_2 << " " << window_3;
     if(!errorMsg.isEmpty()){
         errorMsg = "The following values are empty:\n" + errorMsg;
-        qDebug() << errorMsg;
+        QMessageBox::critical(this, "Data Error", errorMsg);
     }else{
         string *bg = new string[4]{bg_0.toStdString(), bg_1.toStdString(), bg_2.toStdString(), bg_3.toStdString()};
         string *obj0 = new string[4]{obj0_0.toStdString(),obj0_1.toStdString(),obj0_2.toStdString(),obj0_3.toStdString()};
@@ -211,7 +211,7 @@ void MainWindow::on_btn_bg_3_clicked()
 void MainWindow::on_txt_bg_0_textChanged()
 {
     QString colorData = ui->txt_bg_0->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_bg_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -219,7 +219,7 @@ void MainWindow::on_txt_bg_0_textChanged()
 void MainWindow::on_txt_bg_1_textChanged()
 {
     QString colorData = ui->txt_bg_1->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_bg_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -227,7 +227,7 @@ void MainWindow::on_txt_bg_1_textChanged()
 void MainWindow::on_txt_bg_2_textChanged()
 {
     QString colorData = ui->txt_bg_2->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_bg_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -235,7 +235,7 @@ void MainWindow::on_txt_bg_2_textChanged()
 void MainWindow::on_txt_bg_3_textChanged()
 {
     QString colorData = ui->txt_bg_3->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_bg_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -271,7 +271,7 @@ void MainWindow::on_btn_obj0_3_clicked()
 void MainWindow::on_txt_obj0_0_textChanged()
 {
     QString colorData = ui->txt_obj0_0->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_obj0_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -279,7 +279,7 @@ void MainWindow::on_txt_obj0_0_textChanged()
 void MainWindow::on_txt_obj0_1_textChanged()
 {
     QString colorData = ui->txt_obj0_1->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_obj0_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -287,7 +287,7 @@ void MainWindow::on_txt_obj0_1_textChanged()
 void MainWindow::on_txt_obj0_2_textChanged()
 {
     QString colorData = ui->txt_obj0_2->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_obj0_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -295,7 +295,7 @@ void MainWindow::on_txt_obj0_2_textChanged()
 void MainWindow::on_txt_obj0_3_textChanged()
 {
     QString colorData = ui->txt_obj0_3->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_obj0_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -331,7 +331,7 @@ void MainWindow::on_btn_obj1_3_clicked()
 void MainWindow::on_txt_obj1_0_textChanged()
 {
     QString colorData = ui->txt_obj1_0->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_obj1_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -339,7 +339,7 @@ void MainWindow::on_txt_obj1_0_textChanged()
 void MainWindow::on_txt_obj1_1_textChanged()
 {
     QString colorData = ui->txt_obj1_1->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_obj1_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -347,7 +347,7 @@ void MainWindow::on_txt_obj1_1_textChanged()
 void MainWindow::on_txt_obj1_2_textChanged()
 {
     QString colorData = ui->txt_obj1_2->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_obj1_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -355,7 +355,7 @@ void MainWindow::on_txt_obj1_2_textChanged()
 void MainWindow::on_txt_obj1_3_textChanged()
 {
     QString colorData = ui->txt_obj1_3->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_obj1_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -391,7 +391,7 @@ void MainWindow::on_btn_window_3_clicked()
 void MainWindow::on_txt_window_0_textChanged()
 {
     QString colorData = ui->txt_window_0->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_window_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -399,7 +399,7 @@ void MainWindow::on_txt_window_0_textChanged()
 void MainWindow::on_txt_window_1_textChanged()
 {
     QString colorData = ui->txt_window_1->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_window_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -407,7 +407,7 @@ void MainWindow::on_txt_window_1_textChanged()
 void MainWindow::on_txt_window_2_textChanged()
 {
     QString colorData = ui->txt_window_2->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_window_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -415,7 +415,7 @@ void MainWindow::on_txt_window_2_textChanged()
 void MainWindow::on_txt_window_3_textChanged()
 {
     QString colorData = ui->txt_window_3->toPlainText();
-    if(QColor::isValidColorName(colorData)){
+    if(QColor(colorData).isValid()){
         ui->btn_window_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
     }
 }
@@ -453,8 +453,12 @@ void MainWindow::on_btn_convert_save_clicked()
             ui->txt_convert_load->setText("");
             ui->txt_convert_save->setText("");
         }
-        else qDebug() << "No save path was given.";
+        else {
+            QMessageBox::critical(this, "File Error", "No destination filepath was given.");
+        }
     }
-    else qDebug() << "No load path was given.";
+    else {
+        QMessageBox::critical(this, "File Error", "No source filepath was given.");
+    }
 }
 

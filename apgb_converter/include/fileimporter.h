@@ -18,6 +18,8 @@ public:
     bool isKeyword(string word);
     string trim(string data);
     string fromHexToStr(string hexStr);
+    bool isJASCFormat(string filename);
+    bool isAPGBFormat(string filename);
 
     // Import functions
     APGB_Palette importPaletteFromCSV(string filename);
@@ -25,7 +27,7 @@ public:
     APGB_Palette importPaletteJASC(string filename);
 
     // Variables
-    QString black, white;
+    QString black, dark, light, white;
 };
 
 #endif // FILEIMPORTER_H

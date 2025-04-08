@@ -9,8 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Gui Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets)
 
 set(PROJECT_SOURCES
     main.cpp
@@ -25,17 +25,11 @@ set(DOC_SOURCES
     img/convert.png
 )
 
-set(DIALOG_SOURCES
-    ui/importdialog.ui
-    ui/errormessagedialog.ui
-)
-
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(apgb_converter
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         ${DOC_SOURCES}
-        ${DIALOG_SOURCES}
         include/palettes.h
         include/fileimporter.h
         fileimporter.cpp
