@@ -25,10 +25,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(apgbApp
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        #Formats.cpp
         README.md
         img/editor.png
         img/convert.png
+        palettes.h
+        fileimporter.h fileimporter.cpp
+        save.h save.cpp
         #importdialog.ui
     )
 # Define target properties for Android with Qt 6 as:

@@ -5,6 +5,10 @@
 #include <QString>
 #include <QColor>
 
+#include "palettes.h"
+#include "fileimporter.h"
+#include "save.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -13,11 +17,6 @@ QT_END_NAMESPACE
 
 using namespace std;
 
-struct APGB_Palette{
-    string *bg, *obj0, *obj1, *window;
-    int numOfBytes = 56;
-};
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,22 +24,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    // Functions
     QString gethexColor();
-    APGB_Palette importPaletteFromCSV(string filename);
-    APGB_Palette importPaletteFromAPGB(string filename);
-    APGB_Palette importPaletteJASC(string filename);
-    APGB_Palette getPalette(string *bg, string *obj0, string *obj1, string *window);
-    char* APGBFormat(APGB_Palette p, int size);
-    void savePalette(string filename, APGB_Palette p);
 
-    int* fromStrToHexStrArr(string str, int numOfBytes);
-    string fromHexToStr(string hexStr);
-    string trim(string data);
-    void clearBuffer(char *buffer, int size);
-    bool isKeyword(string word);
-
-    string footer, lcdOff;
-    QString darkest, brightest;
+    // Classes instances
+    FileImporter importer;
+    FileSave fsave;
 
 private slots:
     // Editor tab
