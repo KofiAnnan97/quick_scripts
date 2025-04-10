@@ -77,7 +77,7 @@ vector<QString> MainWindow::getChosenPalettes(){
     temp.push_back(ui->txt_bg_0->toPlainText());
     temp.push_back(ui->txt_bg_1->toPlainText());
     temp.push_back(ui->txt_bg_2->toPlainText());
-    temp.push_back(ui->txt_bg_2->toPlainText());
+    temp.push_back(ui->txt_bg_3->toPlainText());
     temp.push_back(ui->txt_obj0_0->toPlainText());
     temp.push_back(ui->txt_obj0_1->toPlainText());
     temp.push_back(ui->txt_obj0_2->toPlainText());
@@ -204,11 +204,10 @@ void MainWindow::on_btn_save_clicked()
  }
 
 void MainWindow::update_image_view(){
-    //qDebug() << QCoreApplication::applicationDirPath();
     vector<QString> temp = this->getChosenPalettes();
     // Find a more clever way of retrieving this file from a folder
     QString encHeximgPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator() + ".." + QDir::separator() + ".." + QDir::separator() + "img");
-    string filename = QDir::cleanPath(encHeximgPath + QDir::separator() + "test.txt").toStdString();
+    string filename = QDir::cleanPath(encHeximgPath + QDir::separator() + "test_matrix.txt").toStdString();
     //string filename = "./../../img/test.txt";
     this->imgImporter.decodeImageTxt(filename, image, temp);
     scene->addPixmap(QPixmap::fromImage(*image));

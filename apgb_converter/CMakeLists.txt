@@ -26,7 +26,7 @@ set(DOC_SOURCES
 )
 
 set(DYNAMIC_IMG_SOURCES
-  img/test.txt
+  img/test_matrix.txt
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

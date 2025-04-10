@@ -15,7 +15,7 @@ public:
     ImageImporter();
     vector<QColor> setImageColors(vector<QString> hexColorIdx);
     int getIdxFromHexChar(char hexChar);
-    void decodeImageTxt(string filename, QImage image, vector<QString> palettes);
+    void decodeImageTxt(string filename, QImage *image, vector<QString> palettes);
 
     int width, height, multiplier;
 };
