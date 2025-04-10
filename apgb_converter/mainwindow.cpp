@@ -13,6 +13,7 @@
 #include <QFileDialog>
 #include <string>
 #include <QMessageBox>
+#include <QDir>
 
 
 using namespace std;
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->initialize_editor_values();
 
     // Initialize image view
+    image = new QImage(this->imgImporter.width, this->imgImporter.height, QImage::Format_RGB666);
     this->update_image_view();
 
     //Set button action for bringing up color picker
@@ -202,22 +204,14 @@ void MainWindow::on_btn_save_clicked()
  }
 
 void MainWindow::update_image_view(){
-    QImage image(this->imgImporter.width, this->imgImporter.height, QImage::Format_RGB666);
+    //qDebug() << QCoreApplication::applicationDirPath();
     vector<QString> temp = this->getChosenPalettes();
-    // Need to test
-    //string filename = "/home/eglinux/Github/quick_scripts/apgb_converter/img/zelda.txt";
-    //this->imgImporter.decodeImageTxt(filename, image, temp);
-    vector<QColor> colorIdxs = this->imgImporter.setImageColors(temp);
-    for(int y = 0; y < this->imgImporter.height; y+=2){
-        for(int x = 0; x <this->imgImporter.width; x+=2){
-            int cIdx = rand()%16;
-            image.setPixelColor(x, y, colorIdxs[cIdx]);
-            image.setPixelColor(x+1, y, colorIdxs[cIdx]);
-            image.setPixelColor(x, y+1, colorIdxs[cIdx]);
-            image.setPixelColor(x+1, y+1, colorIdxs[cIdx]);
-        }
-    }
-    scene->addPixmap(QPixmap::fromImage(image));
+    // Find a more clever way of retrieving this file from a folder
+    QString encHeximgPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator() + ".." + QDir::separator() + ".." + QDir::separator() + "img");
+    string filename = QDir::cleanPath(encHeximgPath + QDir::separator() + "test.txt").toStdString();
+    //string filename = "./../../img/test.txt";
+    this->imgImporter.decodeImageTxt(filename, image, temp);
+    scene->addPixmap(QPixmap::fromImage(*image));
 }
 
 void MainWindow::on_btn_bg_0_clicked()
@@ -249,6 +243,7 @@ void MainWindow::on_txt_bg_0_textChanged()
     QString colorData = ui->txt_bg_0->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_bg_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -257,6 +252,7 @@ void MainWindow::on_txt_bg_1_textChanged()
     QString colorData = ui->txt_bg_1->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_bg_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -265,6 +261,7 @@ void MainWindow::on_txt_bg_2_textChanged()
     QString colorData = ui->txt_bg_2->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_bg_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -273,6 +270,7 @@ void MainWindow::on_txt_bg_3_textChanged()
     QString colorData = ui->txt_bg_3->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_bg_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -305,6 +303,7 @@ void MainWindow::on_txt_obj0_0_textChanged()
     QString colorData = ui->txt_obj0_0->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_obj0_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -313,6 +312,7 @@ void MainWindow::on_txt_obj0_1_textChanged()
     QString colorData = ui->txt_obj0_1->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_obj0_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -321,6 +321,7 @@ void MainWindow::on_txt_obj0_2_textChanged()
     QString colorData = ui->txt_obj0_2->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_obj0_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -329,6 +330,7 @@ void MainWindow::on_txt_obj0_3_textChanged()
     QString colorData = ui->txt_obj0_3->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_obj0_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -361,6 +363,7 @@ void MainWindow::on_txt_obj1_0_textChanged()
     QString colorData = ui->txt_obj1_0->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_obj1_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -369,6 +372,7 @@ void MainWindow::on_txt_obj1_1_textChanged()
     QString colorData = ui->txt_obj1_1->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_obj1_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -377,6 +381,7 @@ void MainWindow::on_txt_obj1_2_textChanged()
     QString colorData = ui->txt_obj1_2->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_obj1_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -385,6 +390,7 @@ void MainWindow::on_txt_obj1_3_textChanged()
     QString colorData = ui->txt_obj1_3->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_obj1_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -417,6 +423,7 @@ void MainWindow::on_txt_window_0_textChanged()
     QString colorData = ui->txt_window_0->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_window_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -425,6 +432,7 @@ void MainWindow::on_txt_window_1_textChanged()
     QString colorData = ui->txt_window_1->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_window_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 
@@ -433,6 +441,8 @@ void MainWindow::on_txt_window_2_textChanged()
     QString colorData = ui->txt_window_2->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_window_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
+
     }
 }
 
@@ -441,6 +451,7 @@ void MainWindow::on_txt_window_3_textChanged()
     QString colorData = ui->txt_window_3->toPlainText();
     if(QColor(colorData).isValid()){
         ui->btn_window_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
+        this->update_image_view();
     }
 }
 

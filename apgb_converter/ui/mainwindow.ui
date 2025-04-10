@@ -505,9 +505,9 @@
      <widget class="QGraphicsView" name="view_img">
       <property name="geometry">
        <rect>
-        <x>180</x>
+        <x>200</x>
         <y>20</y>
-        <width>360</width>
+        <width>320</width>
         <height>288</height>
        </rect>
       </property>

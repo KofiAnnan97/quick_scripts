@@ -25,11 +25,16 @@ set(DOC_SOURCES
     img/convert.png
 )
 
+set(DYNAMIC_IMG_SOURCES
+  img/test.txt
+)
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(apgb_converter
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         ${DOC_SOURCES}
+        ${DYNAMIC_IMG_SOURCES}
         include/palettes.h
         include/fileimporter.h
         fileimporter.cpp
