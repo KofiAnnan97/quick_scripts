@@ -53,7 +53,8 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
             else{
                 for(auto c: line){
                     int hexIdx = this->getIdxFromHexChar(c);
-                    if(hexIdx != -1){
+                    if(col >= this->width) break;
+                    else if(hexIdx != -1){
                         image->setPixelColor(col, row, colorIdxs[hexIdx]);
                         image->setPixelColor(col+1, row, colorIdxs[hexIdx]);
                         image->setPixelColor(col, row+1, colorIdxs[hexIdx]);
