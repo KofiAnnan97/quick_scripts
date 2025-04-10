@@ -2,12 +2,18 @@
 #include "./ui/ui_mainwindow.h"
 #include <QTextEdit>
 #include <QColorDialog>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QPixmap>
+#include <QColor>
+#include <QImage>
 #include <QString>
 #include <QDebug>
 #include <QDialog>
 #include <QFileDialog>
 #include <string>
 #include <QMessageBox>
+
 
 using namespace std;
 
@@ -17,25 +23,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Set text fields for darkest and brightest hex values on startup
-    ui->txt_bg_0->setText(importer.black);
-    ui->txt_bg_3->setText(importer.white);
-    ui->txt_obj0_0->setText(importer.black);
-    ui->txt_obj0_3->setText(importer.white);
-    ui->txt_obj1_0->setText(importer.black);
-    ui->txt_obj1_3->setText(importer.white);
-    ui->txt_window_0->setText(importer.black);
-    ui->txt_window_3->setText(importer.white);
+    // Set up dynamic GB palette viewer
+    scene = new QGraphicsScene(this);
+    ui->view_img->setScene(scene);
 
-    // Set button color for black and white hex values on startup
-    ui->btn_bg_0->setStyleSheet("QPushButton { background-color : " + importer.black + "}");
-    ui->btn_bg_3->setStyleSheet("QPushButton { background-color : " + importer.white + "}");
-    ui->btn_obj0_0->setStyleSheet("QPushButton { background-color : " + importer.black + "}");
-    ui->btn_obj0_3->setStyleSheet("QPushButton { background-color : " + importer.white + "}");
-    ui->btn_obj1_0->setStyleSheet("QPushButton { background-color : " + importer.black + "}");
-    ui->btn_obj1_3->setStyleSheet("QPushButton { background-color : " + importer.white + "}");
-    ui->btn_window_0->setStyleSheet("QPushButton { background-color : " + importer.black + "}");
-    ui->btn_window_3->setStyleSheet("QPushButton { background-color : " + importer.white + "}");
+    // Initialize editor hexadecimal values
+    this->initialize_editor_values();
+
+    // Initialize image view
+    this->update_image_view();
 
     //Set button action for bringing up color picker
     //connect(ui->btn_bg_0, SIGNAL(clicked()), this, SLOT(on_hexBtn_clicked(QString("btn_bg_0"))));
@@ -54,22 +50,63 @@ QString MainWindow::gethexColor(){
     return hexColor;
 }
 
+void MainWindow::initialize_editor_values(){
+    // Set text fields for darkest and brightest hex values on startup
+    ui->txt_bg_0->setText(fImporter.black);
+    ui->txt_bg_1->setText(fImporter.dark);
+    ui->txt_bg_2->setText(fImporter.light);
+    ui->txt_bg_3->setText(fImporter.white);
+    ui->txt_obj0_0->setText(fImporter.black);
+    ui->txt_obj0_1->setText(fImporter.dark);
+    ui->txt_obj0_2->setText(fImporter.light);
+    ui->txt_obj0_3->setText(fImporter.white);
+    ui->txt_obj1_0->setText(fImporter.black);
+    ui->txt_obj1_1->setText(fImporter.dark);
+    ui->txt_obj1_2->setText(fImporter.light);
+    ui->txt_obj1_3->setText(fImporter.white);
+    ui->txt_window_0->setText(fImporter.black);
+    ui->txt_window_1->setText(fImporter.dark);
+    ui->txt_window_2->setText(fImporter.light);
+    ui->txt_window_3->setText(fImporter.white);
+}
+
+vector<QString> MainWindow::getChosenPalettes(){
+    vector<QString> temp;
+    temp.push_back(ui->txt_bg_0->toPlainText());
+    temp.push_back(ui->txt_bg_1->toPlainText());
+    temp.push_back(ui->txt_bg_2->toPlainText());
+    temp.push_back(ui->txt_bg_2->toPlainText());
+    temp.push_back(ui->txt_obj0_0->toPlainText());
+    temp.push_back(ui->txt_obj0_1->toPlainText());
+    temp.push_back(ui->txt_obj0_2->toPlainText());
+    temp.push_back(ui->txt_obj0_3->toPlainText());
+    temp.push_back(ui->txt_obj1_0->toPlainText());
+    temp.push_back(ui->txt_obj1_1->toPlainText());
+    temp.push_back(ui->txt_obj1_2->toPlainText());
+    temp.push_back(ui->txt_obj1_3->toPlainText());
+    temp.push_back(ui->txt_window_0->toPlainText());
+    temp.push_back(ui->txt_window_1->toPlainText());
+    temp.push_back(ui->txt_window_2->toPlainText());
+    temp.push_back(ui->txt_window_3->toPlainText());
+    return temp;
+}
+
 void MainWindow::on_btn_import_clicked(){
     QString filename = QFileDialog::getOpenFileName(this, tr("Import"), tr(""));
     APGB_Palette p;
     bool canPopulate = false;
     string fn = filename.toStdString();
     if(filename.endsWith(".csv")){
-        p = this->importer.importPaletteFromCSV(fn);
+        p = this->fImporter.importPaletteFromCSV(fn);
         canPopulate = true;
     }
     else if(filename.endsWith(".pal")){
-        if(this->importer.isJASCFormat(fn)){
-            p = this->importer.importPaletteJASC(filename.toStdString());
+        if(this->fImporter.isJASCFormat(fn)){
+            p = this->fImporter.importPaletteJASC(filename.toStdString());
             canPopulate = true;
         }
-        else if(this->importer.isAPGBFormat(fn)){
-            p = this->importer.importPaletteFromAPGB(filename.toStdString());
+        else if(this->fImporter.isAPGBFormat(fn)){
+            p = this->fImporter.importPaletteFromAPGB(filename.toStdString());
             canPopulate = true;
         }
         else QMessageBox::critical(this, "Format Error", "There was an issue parsing " + filename);
@@ -78,37 +115,21 @@ void MainWindow::on_btn_import_clicked(){
 
     if(canPopulate == true){
         ui->txt_bg_0->setText(QString::fromStdString(p.bg[0]));
-        ui->btn_bg_0->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.bg[0]) + "}");
         ui->txt_bg_1->setText(QString::fromStdString(p.bg[1]));
-        ui->btn_bg_1->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.bg[1]) + "}");
         ui->txt_bg_2->setText(QString::fromStdString(p.bg[2]));
-        ui->btn_bg_2->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.bg[2]) + "}");
         ui->txt_bg_3->setText(QString::fromStdString(p.bg[3]));
-        ui->btn_bg_3->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.bg[3]) + "}");
         ui->txt_obj0_0->setText(QString::fromStdString(p.obj0[0]));
-        ui->btn_obj0_0->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.obj0[0]) + "}");
         ui->txt_obj0_1->setText(QString::fromStdString(p.obj0[1]));
-        ui->btn_obj0_1->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.obj0[1]) + "}");
         ui->txt_obj0_2->setText(QString::fromStdString(p.obj0[2]));
-        ui->btn_obj0_2->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.obj0[2]) + "}");
         ui->txt_obj0_3->setText(QString::fromStdString(p.obj0[3]));
-        ui->btn_obj0_3->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.obj0[3]) + "}");
         ui->txt_obj1_0->setText(QString::fromStdString(p.obj1[0]));
-        ui->btn_obj1_0->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.obj1[0]) + "}");
         ui->txt_obj1_1->setText(QString::fromStdString(p.obj1[1]));
-        ui->btn_obj1_1->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.obj1[1]) + "}");
         ui->txt_obj1_2->setText(QString::fromStdString(p.obj1[2]));
-        ui->btn_obj1_2->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.obj1[2]) + "}");
         ui->txt_obj1_3->setText(QString::fromStdString(p.obj1[3]));
-        ui->btn_obj1_3->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.obj1[3]) + "}");
         ui->txt_window_0->setText(QString::fromStdString(p.window[0]));
-        ui->btn_window_0->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.window[0]) + "}");
         ui->txt_window_1->setText(QString::fromStdString(p.window[1]));
-        ui->btn_window_1->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.window[1]) + "}");
         ui->txt_window_2->setText(QString::fromStdString(p.window[2]));
-        ui->btn_window_2->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.window[2]) + "}");
         ui->txt_window_3->setText(QString::fromStdString(p.window[3]));
-        ui->btn_window_3->setStyleSheet("QPushButton { background-color : " + QString::fromStdString(p.window[3]) + "}");
     }
 }
 
@@ -180,32 +201,47 @@ void MainWindow::on_btn_save_clicked()
     }
  }
 
+void MainWindow::update_image_view(){
+    QImage image(this->imgImporter.width, this->imgImporter.height, QImage::Format_RGB666);
+    vector<QString> temp = this->getChosenPalettes();
+    // Need to test
+    //string filename = "/home/eglinux/Github/quick_scripts/apgb_converter/img/zelda.txt";
+    //this->imgImporter.decodeImageTxt(filename, image, temp);
+    vector<QColor> colorIdxs = this->imgImporter.setImageColors(temp);
+    for(int y = 0; y < this->imgImporter.height; y+=2){
+        for(int x = 0; x <this->imgImporter.width; x+=2){
+            int cIdx = rand()%16;
+            image.setPixelColor(x, y, colorIdxs[cIdx]);
+            image.setPixelColor(x+1, y, colorIdxs[cIdx]);
+            image.setPixelColor(x, y+1, colorIdxs[cIdx]);
+            image.setPixelColor(x+1, y+1, colorIdxs[cIdx]);
+        }
+    }
+    scene->addPixmap(QPixmap::fromImage(image));
+}
+
 void MainWindow::on_btn_bg_0_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_bg_0->setText(colorData);
-    ui->btn_bg_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_bg_1_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_bg_1->setText(colorData);
-    ui->btn_bg_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_bg_2_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_bg_2->setText(colorData);
-    ui->btn_bg_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_bg_3_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_bg_3->setText(colorData);
-    ui->btn_bg_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_txt_bg_0_textChanged()
@@ -244,28 +280,24 @@ void MainWindow::on_btn_obj0_0_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_obj0_0->setText(colorData);
-    ui->btn_obj0_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_obj0_1_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_obj0_1->setText(colorData);
-    ui->btn_obj0_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_obj0_2_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_obj0_2->setText(colorData);
-    ui->btn_obj0_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_obj0_3_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_obj0_3->setText(colorData);
-    ui->btn_obj0_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_txt_obj0_0_textChanged()
@@ -304,28 +336,24 @@ void MainWindow::on_btn_obj1_0_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_obj1_0->setText(colorData);
-    ui->btn_obj1_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_obj1_1_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_obj1_1->setText(colorData);
-    ui->btn_obj1_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_obj1_2_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_obj1_2->setText(colorData);
-    ui->btn_obj1_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_obj1_3_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_obj1_3->setText(colorData);
-    ui->btn_obj1_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_txt_obj1_0_textChanged()
@@ -364,28 +392,24 @@ void MainWindow::on_btn_window_0_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_window_0->setText(colorData);
-    ui->btn_window_0->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_window_1_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_window_1->setText(colorData);
-    ui->btn_window_1->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_window_2_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_window_2->setText(colorData);
-    ui->btn_window_2->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_btn_window_3_clicked()
 {
     QString colorData = this->gethexColor();
     ui->txt_window_3->setText(colorData);
-    ui->btn_window_3->setStyleSheet("QPushButton { background-color : " + colorData + "}");
 }
 
 void MainWindow::on_txt_window_0_textChanged()
@@ -445,8 +469,8 @@ void MainWindow::on_btn_convert_save_clicked()
     QString saveFile = ui->txt_convert_save->toPlainText();
 
     if(!loadFile.isEmpty()){
-        if(ui->r_csv->isChecked())        p = this->importer.importPaletteFromCSV(loadFile.toStdString());
-        else if(ui->r_jasc->isChecked())  p = this->importer.importPaletteJASC(loadFile.toStdString());
+        if(ui->r_csv->isChecked())        p = this->fImporter.importPaletteFromCSV(loadFile.toStdString());
+        else if(ui->r_jasc->isChecked())  p = this->fImporter.importPaletteJASC(loadFile.toStdString());
 
         if(!saveFile.isEmpty()){
             this->fsave.savePalette(saveFile.toStdString(), p);

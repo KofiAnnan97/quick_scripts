@@ -6,6 +6,7 @@
 #include <QColor>
 
 #include "fileimporter.h"
+#include "imageimporter.h"
 #include "save.h"
 
 QT_BEGIN_NAMESPACE
@@ -24,15 +25,19 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    // Functions
+    // Helpper Functions
     QString gethexColor();
+    vector<QString> getChosenPalettes();
+    void update_image_view();
 
     // Classes instances
-    FileImporter importer;
+    FileImporter fImporter;
+    ImageImporter imgImporter;
     FileSave fsave;
 
 private slots:
     // Editor tab
+    void initialize_editor_values();
     void on_btn_import_clicked();
     void on_btn_save_clicked();
 
@@ -78,5 +83,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene *scene;
 };
 #endif // MAINWINDOW_H
