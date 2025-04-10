@@ -40,19 +40,46 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
         vector<QColor> colorIdxs = this->setImageColors(palettes);
         while(getline(decode, line)){
             if(image->size().isEmpty()) break;
-            for(auto c: line){
-                int hexIdx = this->getIdxFromHexChar(c);
-                //qDebug() << c << "=>" << hexIdx;
-                if(hexIdx != -1){
-                    image->setPixelColor(col, row, colorIdxs[hexIdx]);
-                    image->setPixelColor(col+1, row, colorIdxs[hexIdx]);
-                    image->setPixelColor(col, row+1, colorIdxs[hexIdx]);
-                    image->setPixelColor(col+1, row+1, colorIdxs[hexIdx]);
+            else if(row >= this->height) break;
+            else if(line.empty()){
+                for(int i = 0; i < this->width-this->multiplier-1; i+=this->multiplier){
+                    image->setPixelColor(i, row, Qt::black);
+                    image->setPixelColor(i+1, row, Qt::black);
+                    image->setPixelColor(i, row+1, Qt::black);
+                    image->setPixelColor(i+1, row+1, Qt::black);
                 }
-                col+=this->multiplier;
+                row+=this->multiplier;
             }
-            row+=this->multiplier;
-            col = 0;
+            else{
+                for(auto c: line){
+                    int hexIdx = this->getIdxFromHexChar(c);
+                    if(hexIdx != -1){
+                        image->setPixelColor(col, row, colorIdxs[hexIdx]);
+                        image->setPixelColor(col+1, row, colorIdxs[hexIdx]);
+                        image->setPixelColor(col, row+1, colorIdxs[hexIdx]);
+                        image->setPixelColor(col+1, row+1, colorIdxs[hexIdx]);
+                    }
+                    else{
+                        image->setPixelColor(col, row, Qt::black);
+                        image->setPixelColor(col+1, row, Qt::black);
+                        image->setPixelColor(col, row+1, Qt::black);
+                        image->setPixelColor(col+1, row+1, Qt::black);
+                    }
+                    col+=this->multiplier;
+                }
+                row+=this->multiplier;
+                col = 0;
+            }
+        }
+        while(row > 0 && row < this->height){
+            qDebug() << "Entered";
+            for(int j = 0; j < this->width-this->multiplier-1; j++){
+                image->setPixelColor(j, row, Qt::black);
+                image->setPixelColor(j+1, row, Qt::black);
+                image->setPixelColor(j, row+1, Qt::black);
+                image->setPixelColor(j+1, row+1, Qt::black);
+            }
+            row +=this->multiplier;
         }
     }
     else qDebug() << "Could not find file: " + filename;
