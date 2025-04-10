@@ -8,10 +8,10 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
 - [Resources](#resources)
 
 ## Quick Start
-#### Installation
+#### Pre-requistes
 - QT6 (and supported qmake)
 
-#### Execute
+#### Installation
 1. Open the directory for this project.
 2. Run the following commands:
 ```
@@ -21,13 +21,14 @@ qmake
 make
 ```
 This is should generate a executable for the application.
+
 3. Run application
 
 ## Functionality
 - **Editor** := Create a pal file (hex-based) for Analogue Pocket using a grahical interface .
 ![](/apgb_converter/img/editor.png)
     - The dynamic image window provides a preview or visual representation of how each palette and their intensities affect the overall look.
-    - If you would like to include more test images please use this [scirpt](/recreation/gb_palette_img_encoder/img_encoder.cpp) to encode your image into a suitable format. 
+    - If you would like to include more test images please use this [scirpt](/recreation/gb_palette_img_encoder/img_encoder.cpp) to encode your image into a suitable format (with `.lct` extension). 
 
 - **Import** := Found in the Editor tab. Allows for the conversion of data into the appropriate format and provides the ability to update the colors via the graphical interface. 
     - `Supported file types`: **CSV**, **PAL** (APGB and JASC format)

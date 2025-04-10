@@ -207,7 +207,7 @@ void MainWindow::update_image_view(){
     vector<QString> temp = this->getChosenPalettes();
     // Find a more clever way of retrieving this file from a folder
     QString encHeximgPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator() + ".." + QDir::separator() + ".." + QDir::separator() + "img");
-    string filename = QDir::cleanPath(encHeximgPath + QDir::separator() + "test_matrix.txt").toStdString();
+    string filename = QDir::cleanPath(encHeximgPath + QDir::separator() + "test_matrix.lct").toStdString();
     //string filename = "./../../img/test.txt";
     this->imgImporter.decodeImageTxt(filename, image, temp);
     scene->addPixmap(QPixmap::fromImage(*image));
