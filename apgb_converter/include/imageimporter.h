@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QString>
 #include <vector>
+#include <QDir>
 
 using namespace std;
 
@@ -13,11 +14,15 @@ class ImageImporter
 
 public:
     ImageImporter();
+    void setImgDirectory(QString filepath);
+    void changeFile(int direction, QImage *image, vector<QString> palettes);
     vector<QColor> setImageColors(vector<QString> hexColorIdx);
     int getIdxFromHexChar(char hexChar);
     void decodeImageTxt(string filename, QImage *image, vector<QString> palettes);
 
-    int width, height, multiplier;
+    int width, height, multiplier, fileIdx;
+    QDir imgDir;
+    QColor emptyColor = Qt::black;
 };
 
 #endif // IMAGEIMPORTER_H

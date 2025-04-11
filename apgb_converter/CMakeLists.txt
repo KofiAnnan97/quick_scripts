@@ -19,14 +19,8 @@ set(PROJECT_SOURCES
     ui/mainwindow.ui
 )
 
-set(DOC_SOURCES
-    README.md
-    img/editor.png
-    img/convert.png
-)
-
 set(DYNAMIC_IMG_SOURCES
-  img/test_matrix.lct
+  graphics/image_view/test_matrix.lci
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

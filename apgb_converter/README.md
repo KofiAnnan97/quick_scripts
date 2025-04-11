@@ -20,6 +20,7 @@ qmake -project
 qmake
 make
 ```
+
 This is should generate a executable for the application.
 
 3. Run application
@@ -28,7 +29,7 @@ This is should generate a executable for the application.
 - **Editor** := Create a pal file (hex-based) for Analogue Pocket using a grahical interface .
 ![](/apgb_converter/img/editor.png)
     - The dynamic image window provides a preview or visual representation of how each palette and their intensities affect the overall look.
-    - If you would like to include more test images please use this [scirpt](/recreation/gb_palette_img_encoder/img_encoder.cpp) to encode your image into a suitable format (with `.lct` extension). 
+    - If you would like to include more test images please use this [scirpt](/recreation/limited_color_img_encoder/encoder.cpp) to encode your image into a suitable format (with `.lci` extension). 
 
 - **Import** := Found in the Editor tab. Allows for the conversion of data into the appropriate format and provides the ability to update the colors via the graphical interface. 
     - `Supported file types`: **CSV**, **PAL** (APGB and JASC format)

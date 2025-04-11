@@ -3,7 +3,7 @@
 #include <QRgb>
 #include <QDebug>
 #include <fstream>
-#include <sstream>
+#include <QStringList>
 
 #include "imageimporter.h"
 
@@ -11,6 +11,21 @@ ImageImporter::ImageImporter() {
     multiplier = 2;
     width  = multiplier * 160;  // GameBoy screen width:  160
     height = multiplier * 144;  // GameBoy screen height: 144
+    fileIdx = 0;
+}
+
+void ImageImporter::setImgDirectory(QString folderPath){
+    imgDir = QDir(folderPath);
+}
+
+void ImageImporter::changeFile(int direction, QImage *image, vector<QString> palettes){
+    QStringList files = imgDir.entryList(QStringList() << "*.lci", QDir::Files);
+    fileIdx += direction;
+    if(fileIdx < 0) fileIdx = files.count()-1;
+    else if(fileIdx > files.count()-1) fileIdx = 0;
+    //string filename = "./../../graphics/image_view/test_matrix.lci";
+    string filename = QDir::cleanPath(imgDir.path() + QDir::separator() + files[fileIdx]).toStdString();
+    this->decodeImageTxt(filename, image, palettes);
 }
 
 vector<QColor> ImageImporter::setImageColors(vector<QString> hexColorIdx){
@@ -18,7 +33,7 @@ vector<QColor> ImageImporter::setImageColors(vector<QString> hexColorIdx){
     for(int i = 0; i < hexColorIdx.size(); i++){
         QString hexColor = hexColorIdx[i];
         if(QColor(hexColor).isValid()) temp.push_back(QColor(hexColor));
-        else temp.push_back(Qt::black);
+        else temp.push_back(emptyColor);
     }
     return temp;
 }
@@ -31,6 +46,7 @@ int ImageImporter::getIdxFromHexChar(char hexChar){
 }
 
 void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QString> palettes){
+    image->fill(emptyColor);
     fstream decode;
     string line;
     int row = 0;
@@ -43,10 +59,10 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
             else if(row >= this->height) break;
             else if(line.empty()){
                 for(int i = 0; i < this->width-this->multiplier-1; i+=this->multiplier){
-                    image->setPixelColor(i, row, Qt::black);
-                    image->setPixelColor(i+1, row, Qt::black);
-                    image->setPixelColor(i, row+1, Qt::black);
-                    image->setPixelColor(i+1, row+1, Qt::black);
+                    image->setPixelColor(i, row, emptyColor);
+                    image->setPixelColor(i+1, row, emptyColor);
+                    image->setPixelColor(i, row+1, emptyColor);
+                    image->setPixelColor(i+1, row+1, emptyColor);
                 }
                 row+=this->multiplier;
             }
@@ -61,10 +77,10 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
                         image->setPixelColor(col+1, row+1, colorIdxs[hexIdx]);
                     }
                     else{
-                        image->setPixelColor(col, row, Qt::black);
-                        image->setPixelColor(col+1, row, Qt::black);
-                        image->setPixelColor(col, row+1, Qt::black);
-                        image->setPixelColor(col+1, row+1, Qt::black);
+                        image->setPixelColor(col, row, emptyColor);
+                        image->setPixelColor(col+1, row, emptyColor);
+                        image->setPixelColor(col, row+1, emptyColor);
+                        image->setPixelColor(col+1, row+1, emptyColor);
                     }
                     col+=this->multiplier;
                 }
@@ -75,10 +91,10 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
         while(row > 0 && row < this->height){
             qDebug() << "Entered";
             for(int j = 0; j < this->width-this->multiplier-1; j++){
-                image->setPixelColor(j, row, Qt::black);
-                image->setPixelColor(j+1, row, Qt::black);
-                image->setPixelColor(j, row+1, Qt::black);
-                image->setPixelColor(j+1, row+1, Qt::black);
+                image->setPixelColor(j, row, emptyColor);
+                image->setPixelColor(j+1, row, emptyColor);
+                image->setPixelColor(j, row+1, emptyColor);
+                image->setPixelColor(j+1, row+1, emptyColor);
             }
             row +=this->multiplier;
         }

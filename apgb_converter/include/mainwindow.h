@@ -28,7 +28,7 @@ public:
     // Helpper Functions
     QString gethexColor();
     vector<QString> getChosenPalettes();
-    void update_image_view();
+    void update_image_view(int direction);
 
     // Classes instances
     FileImporter fImporter;
@@ -81,9 +81,14 @@ private slots:
     void on_btn_get_save_clicked();
     void on_btn_convert_save_clicked();
 
+    void on_btn_img_next_clicked();
+
+    void on_btn_img_prev_clicked();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QImage *image;
+    bool image_initialized = false;
 };
 #endif // MAINWINDOW_H
