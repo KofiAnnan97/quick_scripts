@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Analogue Pocket GB Converter</string>
+   <string>APGB</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabs">
@@ -22,6 +22,12 @@
       <width>731</width>
       <height>621</height>
      </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>731</width>
+      <height>621</height>
+     </size>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -507,8 +513,8 @@
        <rect>
         <x>200</x>
         <y>20</y>
-        <width>321</width>
-        <height>289</height>
+        <width>322</width>
+        <height>290</height>
        </rect>
       </property>
       <property name="minimumSize">

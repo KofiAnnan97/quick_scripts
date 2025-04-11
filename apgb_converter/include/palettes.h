@@ -6,7 +6,7 @@
 using namespace std;
 
 struct APGB_Palette{
-    string *bg, *obj0, *obj1, *window;
+    string *bg = nullptr, *obj0 = nullptr, *obj1 = nullptr, *window = nullptr;
     int numOfBytes = 56;
 };
 

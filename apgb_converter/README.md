@@ -14,14 +14,14 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
 #### Installation
 1. Open the directory for this project.
 2. Run the following commands:
-```
-export QT_VERSION_MAJOR=6
-qmake -project 
-qmake
-make
-```
+    ```
+    export QT_VERSION_MAJOR=6
+    qmake -project 
+    qmake
+    make
+    ```
 
-This is should generate a executable for the application.
+    This is should generate a executable for the application.
 
 3. Run application
 

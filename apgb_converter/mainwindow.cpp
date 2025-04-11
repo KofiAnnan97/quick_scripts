@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setFixedSize(width(), height());
+    setWindowTitle("Analogue Pocket GB Palette Creator");
 
     // Set up image viewer
     scene = new QGraphicsScene(this);
@@ -33,7 +35,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Initialize image
     // Find a more clever way of retrieving this file from a folder
-    QString imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator() + ".." + QDir::separator() + ".." + QDir::separator() + "graphics" + QDir::separator() + "image_view");
+    QString imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
+                                         + ".." + QDir::separator() + ".." + QDir::separator() 
+                                         + "graphics" + QDir::separator() + "image_view");
+    if(!QDir(imgDirPath).exists()){
+        QMessageBox::critical(this, "Image Error", "Could not find image_view/ directory.");
+    }
     this->imgImporter.setImgDirectory(imgDirPath);
     image = new QImage(this->imgImporter.width, this->imgImporter.height, QImage::Format_RGB666);
     this->update_image_view(0);
@@ -99,25 +106,15 @@ vector<QString> MainWindow::getChosenPalettes(){
 void MainWindow::on_btn_import_clicked(){
     QString filename = QFileDialog::getOpenFileName(this, tr("Import"), tr(""));
     APGB_Palette p;
-    bool canPopulate = false;
     string fn = filename.toStdString();
-    if(filename.endsWith(".csv")){
-        p = this->fImporter.importPaletteFromCSV(fn);
-        canPopulate = true;
-    }
+    if(filename.endsWith(".csv"))                 p = this->fImporter.importPaletteFromCSV(fn);
     else if(filename.endsWith(".pal")){
-        if(this->fImporter.isJASCFormat(fn)){
-            p = this->fImporter.importPaletteJASC(filename.toStdString());
-            canPopulate = true;
-        }
-        else if(this->fImporter.isAPGBFormat(fn)){
-            p = this->fImporter.importPaletteFromAPGB(filename.toStdString());
-            canPopulate = true;
-        }
+        if(this->fImporter.isJASCFormat(fn))      p = this->fImporter.importPaletteJASC(fn);
+        else if(this->fImporter.isAPGBFormat(fn)) p = this->fImporter.importPaletteFromAPGB(fn);
         else QMessageBox::critical(this, "Format Error", "There was an issue parsing " + filename);
     }
     else QMessageBox::critical(this, "File Type Error", filename + " must use one of the following extensions:\n\t.csv\n\t.pal");
-
+    bool canPopulate = p.bg != nullptr && p.obj0 != nullptr && p.obj1 != nullptr && p.window != nullptr;
     if(canPopulate == true){
         ui->txt_bg_0->setText(QString::fromStdString(p.bg[0]));
         ui->txt_bg_1->setText(QString::fromStdString(p.bg[1]));
@@ -201,7 +198,7 @@ void MainWindow::on_btn_save_clicked()
         string *window = new string[4]{window_0.toStdString(), window_1.toStdString(), window_2.toStdString(), window_3.toStdString()};
         APGB_Palette p = this->fsave.getPalette(bg, obj0, obj1, window);
 
-        QString filename = QFileDialog::getSaveFileName(this, tr("Save GB Palette"), tr("Analogue Pocket GB Palette (*.pal)"));
+        QString filename = QFileDialog::getSaveFileName(this, tr("Save GB Palette"), tr("*.pal"));
         this->fsave.savePalette(filename.toStdString(), p);
     }
  }
@@ -474,7 +471,8 @@ void MainWindow::on_btn_convert_save_clicked()
         if(ui->r_csv->isChecked())        p = this->fImporter.importPaletteFromCSV(loadFile.toStdString());
         else if(ui->r_jasc->isChecked())  p = this->fImporter.importPaletteJASC(loadFile.toStdString());
 
-        if(!saveFile.isEmpty()){
+        bool paletteInitialized = p.bg != nullptr && p.obj0 != nullptr && p.obj1 != nullptr && p.window != nullptr;
+        if(!saveFile.isEmpty() && paletteInitialized){
             this->fsave.savePalette(saveFile.toStdString(), p);
             ui->txt_convert_load->setText("");
             ui->txt_convert_save->setText("");
