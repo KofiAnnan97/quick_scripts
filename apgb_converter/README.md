@@ -27,7 +27,7 @@ This is should generate a executable for the application.
 
 ## Functionality
 - **Editor** := Create a pal file (hex-based) for Analogue Pocket using a grahical interface .
-![](/apgb_converter/img/editor.png)
+![](/apgb_converter/graphics/visual/editor.png)
     - The dynamic image window provides a preview or visual representation of how each palette and their intensities affect the overall look.
     - If you would like to include more test images please use this [scirpt](/recreation/limited_color_img_encoder/encoder.cpp) to encode your image into a suitable format (with `.lci` extension). 
 
@@ -46,7 +46,7 @@ This is should generate a executable for the application.
         - only supports 4, 8, or 16 colors
 
 - **Convert** := For simple conversions that do not require changes to the colors used.
-![](/apgb_converter/img/convert.png)
+![](/apgb_converter/graphics/visual/convert.png)
 
 ## Format
 - 56 bytes
