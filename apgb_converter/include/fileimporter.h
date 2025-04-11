@@ -4,6 +4,7 @@
 #include <QString>
 #include <QDebug>
 #include <QColor>
+#include <QMessageBox>
 
 #include "palettes.h"
 

@@ -1,20 +1,6 @@
-#include "include/mainwindow.h"
+#include "mainwindow.h"
 #include "./ui/ui_mainwindow.h"
-#include <QTextEdit>
-#include <QColorDialog>
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QPixmap>
-#include <QColor>
-#include <QImage>
-#include <QString>
-#include <QDebug>
-#include <QDialog>
-#include <QFileDialog>
 #include <string>
-#include <QMessageBox>
-#include <QDir>
-
 
 using namespace std;
 

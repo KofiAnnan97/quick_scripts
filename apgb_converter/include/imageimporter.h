@@ -6,6 +6,11 @@
 #include <QString>
 #include <vector>
 #include <QDir>
+#include <QImage>
+#include <QColor>
+#include <QRgb>
+#include <QDebug>
+#include <QStringList>
 
 using namespace std;
 

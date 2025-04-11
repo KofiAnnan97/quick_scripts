@@ -4,6 +4,19 @@
 #include <QMainWindow>
 #include <QString>
 #include <QColor>
+#include <QTextEdit>
+#include <QColorDialog>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QPixmap>
+#include <QColor>
+#include <QImage>
+#include <QString>
+#include <QDebug>
+#include <QDialog>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QDir>
 
 #include "fileimporter.h"
 #include "imageimporter.h"

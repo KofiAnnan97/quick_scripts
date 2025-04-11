@@ -1,8 +1,7 @@
 #include <fstream>
 #include <sstream>
-#include <QMessageBox>
 
-#include "include/fileimporter.h"
+#include "fileimporter.h"
 
 FileImporter::FileImporter() {
     black = "#000000";

@@ -1,9 +1,4 @@
-#include <QImage>
-#include <QColor>
-#include <QRgb>
-#include <QDebug>
 #include <fstream>
-#include <QStringList>
 
 #include "imageimporter.h"
 
