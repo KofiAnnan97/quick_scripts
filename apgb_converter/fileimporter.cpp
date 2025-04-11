@@ -81,9 +81,8 @@ APGB_Palette FileImporter::importPaletteFromCSV(string filename){
     if(csv.is_open()){
         vector<string> row;
         string line, word, temp;
-        while(csv >> temp){
+        while(getline(csv, line)){
             row.clear();
-            getline(csv, line);
             stringstream s(line);
             while (getline(s, word, ',')){
                 string trimmedWord = this->trim(word);

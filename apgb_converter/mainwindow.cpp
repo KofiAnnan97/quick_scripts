@@ -99,6 +99,7 @@ void MainWindow::on_btn_import_clicked(){
         else if(this->fImporter.isAPGBFormat(fn)) p = this->fImporter.importPaletteFromAPGB(fn);
         else QMessageBox::critical(this, "Format Error", "There was an issue parsing " + filename);
     }
+    else if(filename.isEmpty()) {}
     else QMessageBox::critical(this, "File Type Error", filename + " must use one of the following extensions:\n\t.csv\n\t.pal");
     bool canPopulate = p.bg != nullptr && p.obj0 != nullptr && p.obj1 != nullptr && p.window != nullptr;
     if(canPopulate == true){
@@ -439,6 +440,12 @@ void MainWindow::on_btn_get_load_clicked()
 {
     QString loadFilename = QFileDialog::getOpenFileName(this, tr("Load Palette"), tr(""));
     ui->txt_convert_load->setText(loadFilename);
+    if(loadFilename.endsWith(".csv")) ui->r_csv->click();
+    else if(loadFilename.endsWith(".pal") && this->fImporter.isJASCFormat(loadFilename.toStdString())){
+        ui->r_jasc->click();
+    }
+    int extensionIdx = loadFilename.lastIndexOf(".");
+    ui->txt_convert_save->setText(loadFilename.left(extensionIdx) + "-apgb.pal");
 }
 
 void MainWindow::on_btn_get_save_clicked()
@@ -454,21 +461,26 @@ void MainWindow::on_btn_convert_save_clicked()
     QString saveFile = ui->txt_convert_save->toPlainText();
 
     if(!loadFile.isEmpty()){
-        if(ui->r_csv->isChecked())        p = this->fImporter.importPaletteFromCSV(loadFile.toStdString());
-        else if(ui->r_jasc->isChecked())  p = this->fImporter.importPaletteJASC(loadFile.toStdString());
+        if(ui->r_csv->isChecked() && loadFile.endsWith(".csv")){
+            p = this->fImporter.importPaletteFromCSV(loadFile.toStdString());
+        }
+        else if(ui->r_jasc->isChecked() && this->fImporter.isJASCFormat(loadFile.toStdString())){
+            p = this->fImporter.importPaletteJASC(loadFile.toStdString());
+        }
 
-        bool paletteInitialized = p.bg != nullptr && p.obj0 != nullptr && p.obj1 != nullptr && p.window != nullptr;
+        bool paletteInitialized = p.bg != nullptr && p.obj0 != nullptr &&
+                                  p.obj1 != nullptr && p.window != nullptr;
         if(!saveFile.isEmpty() && paletteInitialized){
             this->fsave.savePalette(saveFile.toStdString(), p);
             ui->txt_convert_load->setText("");
             ui->txt_convert_save->setText("");
+            QMessageBox::information(this, " ", saveFile + " was successfully saved.");
         }
-        else {
-            QMessageBox::critical(this, "File Error", "No destination filepath was given.");
+        else if(!saveFile.isEmpty() && !paletteInitialized){
+            QMessageBox::critical(this, "Format Error", "There was an error processing the file. Please make sure this file uses a supported file type.");
         }
+        else QMessageBox::critical(this, "File Error", "No destination file was given.");
     }
-    else {
-        QMessageBox::critical(this, "File Error", "No source filepath was given.");
-    }
+    else QMessageBox::critical(this, "File Error", "No source file was given.");
 }
 
