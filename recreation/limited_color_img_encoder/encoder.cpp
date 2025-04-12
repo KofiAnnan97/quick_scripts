@@ -10,7 +10,7 @@
 using namespace std;
 using namespace cv;
 
-LCIFormat form;
+LCI lciFormat;
 vector<string> palettes;
 vector<vector<string>> hexColors;
 string extension = ".lci";
@@ -18,17 +18,17 @@ string extension = ".lci";
 string rgbToHex(int r, int g, int b){
     string hexVal = "";
     string data[2];
-    data[1] = form.encodeIdx[r%16];
+    data[1] = lciFormat.encodeIdx[r%16];
     r /= 16;
-    data[0] = form.encodeIdx[r%16];
+    data[0] = lciFormat.encodeIdx[r%16];
     hexVal += data[0] + data[1];
-    data[1] = form.encodeIdx[g%16];
+    data[1] = lciFormat.encodeIdx[g%16];
     g /= 16;
-    data[0] = form.encodeIdx[g%16];
+    data[0] = lciFormat.encodeIdx[g%16];
     hexVal += data[0] + data[1];
-    data[1] = form.encodeIdx[b%16];
+    data[1] = lciFormat.encodeIdx[b%16];
     b /= 16;
-    data[0] = form.encodeIdx[b%16];
+    data[0] = lciFormat.encodeIdx[b%16];
     hexVal += data[0] + data[1];
     return hexVal;
 }
@@ -42,7 +42,6 @@ vector<string> retrievePalettes(string filename){
         while(getline(pal, line)){
             line.erase(0, 1);
             data.push_back(line);
-            //cout << line << endl;
         }
         pal.close();
     }
@@ -72,10 +71,9 @@ vector<string> getUniquePalettes(string filename){
                         break;
                     }
                 }
-                if(colorPresent == false and temp.size() < form.maxColors) temp.push_back(pxHex);
+                if(colorPresent == false and temp.size() < lciFormat.maxColors) temp.push_back(pxHex);
             }
         }
-        for(auto p : temp) cout << p << endl;
     }
     return temp;
 }
@@ -86,8 +84,8 @@ vector<string> convertJPGToLCI(string filename, vector<string> palettes){
     img = imread(filename, 1); 
     if (!img.data)  cout << "No image data \n"; 
     else{
-        form.header.width = img.cols;
-        form.header.height = img.rows;
+        lciFormat.width = img.cols;
+        lciFormat.height = img.rows;
         for(int i=0; i<img.rows; i++){
             string line = "";
             for(int j=0; j<img.cols; j++){
@@ -98,15 +96,13 @@ vector<string> convertJPGToLCI(string filename, vector<string> palettes){
                 string pxHex = rgbToHex(r, g, b);
                 for(int k = 0; k < palettes.size(); k++){
                     if(pxHex == palettes[k]){
-                        line += form.encodeIdx[k];
+                        line += lciFormat.encodeIdx[k];
                         break;
                     } 
-                    //else line += ' ';
                 }
             } 
             temp.push_back(line);
         }
-        //for(auto p : palettes) cout << p << endl;
     }    
     return temp;
 }
@@ -114,10 +110,10 @@ vector<string> convertJPGToLCI(string filename, vector<string> palettes){
 void write(string filename, vector<string> lciData, vector<string> palettes){
     ofstream encFile(filename);
     if(encFile.is_open()){
-        encFile << "." << form.header.type << endl;
-        encFile << form.header.width << endl;
-        encFile << form.header.height << endl;
-        encFile << form.header.numOfColors << endl;
+        encFile << "." << lciFormat.id << endl;
+        encFile << lciFormat.width << endl;
+        encFile << lciFormat.height << endl;
+        encFile << lciFormat.numOfColors << endl;
         for(int i = 0; i < palettes.size(); i++) encFile << palettes[i] << endl;
         for(int j = 0; j < lciData.size(); j++)  encFile << lciData[j] << endl;
         encFile.close();
@@ -139,22 +135,13 @@ int main(int argc, char* argv[]){
         }
         else i++;
     }
-    //imgFile = "/home/eglinux/Github/quick_scripts/recreation/gb_palette_img_encoder/zelda.png";
-    //paletteFile = "/home/eglinux/Github/quick_scripts/recreation/limited_color_img_encoder/colors.txt";
 
     if(!imgFile.empty()){
         string encodedFile = imgFile.substr(0,imgFile.length()-4) + extension;
         palettes = retrievePalettes(paletteFile);
-        cout << (palettes.size() == 0) << endl;
-        if(palettes.size() == 0){
-            palettes = getUniquePalettes(imgFile);
-            //for(auto p : palettes) cout << p << endl;
-        }
-        //for(auto p : palettes) cout << p << endl;
+        if(palettes.size() == 0) palettes = getUniquePalettes(imgFile);
         vector<string> lciData = convertJPGToLCI(imgFile, palettes);
-        //for(auto p : palettes) cout << p << endl;
-        form.header.type = "LCI";
-        form.header.numOfColors = palettes.size();
+        lciFormat.numOfColors = palettes.size();
         write(encodedFile, lciData, palettes);
     } 
 }

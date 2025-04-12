@@ -8,6 +8,7 @@
 *.lci
 
 # Executables
+encoder
 *.o
 *.exe
 
