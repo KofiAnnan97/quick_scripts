@@ -1,8 +1,8 @@
 # VS Code
 settings.json
 
-# C Files
+# C++
 *.o
 
-# APGB Converter
-*.pal
+# Python
+*.pyc 
