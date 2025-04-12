@@ -8,11 +8,14 @@
 *.lci
 
 # Executables
-encoder
+lci-encoder
 *.o
 *.exe
 
-#Build
+# Build
 CMakeFiles/
 *.cmake
 Makefile
+
+# Keep CMakeList
+!CMakeLists.txt

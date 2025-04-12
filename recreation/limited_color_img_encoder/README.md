@@ -11,14 +11,14 @@ make
 ## Execution
 Run this command to convert a jpeg into a .lci file:
 ```
-.\encoder -i \path\to\image.png"
+.\lci-encoder -i \path\to\image.png
 ``` 
 The resulting file with be saved in the current working directory.
 
 ---------------------------
 If the colors need to be in a specific sequence use the following command:
 ```
-.\encoder -i \path\to\image.png" -p \path\to\colorSequence.txt
+.\lci-encoder -i \path\to\image.png -p \path\to\colorSequence.txt
 ```
 The format of these colors is the same as the example of the `hexColor` values but in a text file.
 
@@ -26,7 +26,7 @@ The format of these colors is the same as the example of the `hexColor` values b
 The limited color image (LCI) format is a text file with the `.lci` extension that uses a singular hexadecimal value to represent a color.
 | Value | Description |
 |-------|-------------| 
-| .LCI | The first line is the ASCII representation of the file extension as an identifier |
+| id | The ASCII representation of `.LCI` |
 | width | The width of the image (integer). | 
 | height | The height of the image (integer). |
 | numOfColors | The total number of colors being used as an integer (up to 36).

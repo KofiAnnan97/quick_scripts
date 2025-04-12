@@ -10,5 +10,5 @@ struct LCI{
         'U', 'V', 'W', 'X', 'Y', 'Z'};
     string id = ".LCI";
     int width, height, numOfColors;
-    string *hexColors, *data;
+    string *hexColors, *imageData;
 };
