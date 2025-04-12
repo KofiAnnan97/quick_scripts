@@ -1,0 +1,17 @@
+# Image files
+*.png
+*.jpg
+*.jpeg
+
+# Text files
+*.txt
+*.lci
+
+# Executables
+*.o
+*.exe
+
+#Build
+CMakeFiles/
+*.cmake
+Makefile
