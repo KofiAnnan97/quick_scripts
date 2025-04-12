@@ -7,7 +7,6 @@
 
 #include "format.h"
 
-using namespace std;
 using namespace cv;
 
 LCI lciFormat;
@@ -40,7 +39,7 @@ vector<string> retrievePalettes(string filename){
     pal.open(filename, ios::in);
     if(pal.is_open()){
         while(getline(pal, line)){
-            line.erase(0, 1);
+            if(line[0] == '#') line.erase(0, 1);
             data.push_back(line);
         }
         pal.close();
@@ -106,6 +105,14 @@ vector<string> convertJPGToLCI(string filename, vector<string> palettes){
     }    
     return temp;
 }
+int getExtensionIdx(string filename){
+    int idx = -1;
+    if (filename.size() == 0) return idx;
+    for(idx = filename.size(); idx >= 0; idx--){
+       if(filename[idx] == '.') return idx;
+    }
+    return -1;
+}
 
 void write(string filename, vector<string> lciData, vector<string> palettes){
     ofstream encFile(filename);
@@ -137,7 +144,8 @@ int main(int argc, char* argv[]){
     }
 
     if(!imgFile.empty()){
-        string encodedFile = imgFile.substr(0,imgFile.length()-4) + extension;
+        int extIdx = getExtensionIdx(imgFile);
+        string encodedFile = imgFile.substr(0,extIdx) + extension;
         palettes = retrievePalettes(paletteFile);
         if(palettes.size() == 0) palettes = getUniquePalettes(imgFile);
         vector<string> lciData = convertJPGToLCI(imgFile, palettes);

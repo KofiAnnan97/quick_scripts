@@ -1,5 +1,5 @@
 # Limited Color Image Encoder
-The primary purpose of this script is to allow for dynamic changing of image files as used in [apgb_converter](). It is design to encode an image as a series of characters in which a single character respresents a color. The limited nature comes its intent to be used for old video game consoles with a limited color range that could be displayed such as the original Gameboy. 
+The primary purpose of this script is to allow for dynamic changing of image files as used in [apgb_converter](https://github.com/KofiAnnan97/apgb_converter). It is design to encode an image as a series of characters in which a single character respresents a color. The limited nature comes its intent to be used for old video game consoles with a limited color range that could be displayed such as the original Gameboy. 
 
 ## Build
 This script relies on the OpenCV C++ libray and uses CMake to compile the code. In the same directory as `CMakeLists.txt` run the following:
@@ -9,7 +9,7 @@ make
 ```
 
 ## Execution
-Run this command to convert a jpeg into a .lci file:
+Run this command to convert an image into a .lci file:
 ```
 .\lci-encoder -i \path\to\image.png
 ``` 
