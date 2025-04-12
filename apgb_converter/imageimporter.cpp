@@ -43,12 +43,21 @@ int ImageImporter::getIdxFromHexChar(char hexChar){
 void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QString> palettes){
     image->fill(emptyColor);
     fstream decode;
-    string line;
     int row = 0;
     int col = 0;
     decode.open(filename, ios::in);
     if(decode.is_open()){
+        string line, type;
+        int width, height, numOfColors;
+        getline(decode, type);
+        getline(decode, line);
+        width = stoi(line);
+        getline(decode, line);
+        height = stoi(line);
+        getline(decode, line);
+        numOfColors = stoi(line);
         vector<QColor> colorIdxs = this->setImageColors(palettes);
+        for(int n = 0; n < numOfColors; n++) getline(decode, line);
         while(getline(decode, line)){
             if(image->size().isEmpty()) break;
             else if(row >= this->height) break;
