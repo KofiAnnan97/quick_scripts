@@ -1,4 +1,4 @@
-# Limited Color Image (LCI)
+# Limited Color Image (LCI) Format
 The primary purpose of this script is to allow for dynamic changing of image files as used in [apgb_converter](https://github.com/KofiAnnan97/apgb_converter). It is design to encode an image as a series of characters in which a single character respresents a color. The limited nature comes its intent to be used for old video game consoles with a limited color range that could be displayed such as the original Gameboy. 
 
 ## Build
@@ -38,7 +38,7 @@ The limited color image (LCI) format is a text file with the `.lci` extension th
 | width | The width of the image (integer). | 
 | height | The height of the image (integer). |
 | numOfColors | The total number of colors being used as an integer (up to 36).
-| hexColor | A 24-bit representation of a RGB color (the # of colors should equal numOfColors). |
+| hexColors | A 24-bit representation of a RGB color (the # of colors should equal numOfColors). |
 | imageData | The remainder of this file is allocated to the characters used to represent the hexColors above. The dimension should be equivalent to width by height of the image. |
 
 #### Example
@@ -47,10 +47,10 @@ The limited color image (LCI) format is a text file with the `.lci` extension th
 16                  ; width
 8                   ; height
 4                   ; numOfColors
-E2D9E4              ; hexColor
-6C9A9A              ; hexColor
-52675D              ; hexColor
-37403B              ; hexColor
+E2D9E4              ; hexColors
+6C9A9A              ; hexColors
+52675D              ; hexColors
+37403B              ; hexColors
 0011223300112233    ; imageData
 0011223300112233    ; imageData
 0011223300112233    ; imageData

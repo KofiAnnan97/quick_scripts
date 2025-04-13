@@ -2,22 +2,22 @@
 A collection of scripts to accomplish various tasks.
 
 ### Scripts Directory
-| Name              | Description |
-|-------------------|-------------|
-| [DataManager](/Purdue_Research/DataManager.py) | A simple way for converting into a more concise string packets for constrained payloads.  |
-| [GPStoCartesian](/Purdue_Research/GPStoCartesian.py) | Convert GPS coordinates to Cartesian using UTM |
-| [SerialTest](/Purdue_Research/SerialTest.py) | A quick script to test that the serial communication works |
-| [Visualizer](/Purdue_Research/Visualizer.py) | Generate graph in real-time or using a CSV file |
-| [PoseWithKalman](/Purdue_Research/PoseWithKalman.py) | Apply acceleration data in a Kalman filter to pose data from CSV |
-| [kalman2](/Purdue_Research/kalman2.py) | A kalman filter |
-| [covariance](/Purdue_Research/covariance.py) | Calculate covariance |
-| [Limited Color Image Encoder](/recreation/limited_color_img/src/encoder.cpp) | A script to convert images into a malluable representation of an image  based on my text file format [`LCI`](/recreation/limited_color_img/README.md) (used to develop dynamic images for `APGB Converter`) |
-| [Limited Color Image Decoder](/recreation/limited_color_img/src/decoder.cpp) | A script to convert LCI files into JPEGs |
+| Name | Directory | Description |
+|------|-----------|-------------|
+| [DataManager](/PurdueResearch/DataManager.py) | `PurdueResearch` | A simple way for converting into a more concise string packets for constrained payloads.  |
+| [GPStoCartesian](/PurdueResearch/GPStoCartesian.py) | `PurdueResearch` |Convert GPS coordinates to Cartesian using UTM |
+| [SerialTest](/PurdueResearch/SerialTest.py) | `PurdueResearch` |A quick script to test that the serial communication works |
+| [Visualizer](/PurdueResearch/Visualizer.py) | `PurdueResearch` |Generate graph in real-time or using a CSV file |
+| [PoseWithKalman](/PurdueResearch/PoseWithKalman.py) | `PurdueResearch` |Apply acceleration data in a Kalman filter to pose data from CSV |
+| [kalman](/PurdueResearch/kalman2.py) | `PurdueResearch` |A kalman filter |
+| [covariance](/PurdueResearch/covariance.py) | `PurdueResearch` |Calculate covariance |
+| [LCI Encoder](/Recreation/limited_color_img_format/src/encoder.cpp) | `Recreation` | A script to convert images into a malluable representation of an image  based on my text file format [`LCI`](/Recreation/limited_color_img_format/README.md) (used to develop dynamic images for `APGB Converter`) |
+| [LCI Decoder](/Recreation/limited_color_img_format/src/decoder.cpp) | `Recreation` | A script to convert LCI files into JPEGs |
 
 ### External Scripts Directory
 The following scripts were once included in this repository or other scripts that I find useful and revamped into their own projects.
 
 | Name | Description | URL |
 |------|-------------|-----|
-| `Simple CSV Grapber` | A script that generates 2D plots, 3D plots, animated plots and live plots based on a CSV file. | [link](https://github.com/KofiAnnan97/simple_csv_grapher) |
+| `Simple CSV Grapher` | A script that generates 2D plots, 3D plots, animated plots and live plots based on a CSV file. | [link](https://github.com/KofiAnnan97/simple_csv_grapher) |
 | `APGB Converter` | A GUI for creating Analogue Pocket GameBoy Palettes | [link](https://github.com/KofiAnnan97/apgb_converter)
