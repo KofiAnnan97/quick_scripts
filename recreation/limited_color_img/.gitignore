@@ -9,6 +9,7 @@
 
 # Executables
 lci-encoder
+lci-decoder
 *.o
 *.exe
 

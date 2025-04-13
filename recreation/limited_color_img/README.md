@@ -1,4 +1,4 @@
-# Limited Color Image Encoder
+# Limited Color Image (LCI)
 The primary purpose of this script is to allow for dynamic changing of image files as used in [apgb_converter](https://github.com/KofiAnnan97/apgb_converter). It is design to encode an image as a series of characters in which a single character respresents a color. The limited nature comes its intent to be used for old video game consoles with a limited color range that could be displayed such as the original Gameboy. 
 
 ## Build
@@ -9,11 +9,12 @@ make
 ```
 
 ## Execution
+### Encoder
 Run this command to convert an image into a .lci file:
 ```
 .\lci-encoder -i \path\to\image.png
 ``` 
-The resulting file with be saved in the current working directory.
+The resulting file with be saved in the same directory as the source image.
 
 ---------------------------
 If the colors need to be in a specific sequence use the following command:
@@ -21,6 +22,13 @@ If the colors need to be in a specific sequence use the following command:
 .\lci-encoder -i \path\to\image.png -p \path\to\colorSequence.txt
 ```
 The format of these colors is the same as the example of the `hexColor` values but in a text file.
+
+### Decoder
+Run this command to convert a LCI file to JPG:
+```
+.\lci-decoder -i \path\to\image.lci
+``` 
+The resulting file with be saved in the same directory as the source image.
 
 ## LCI Format
 The limited color image (LCI) format is a text file with the `.lci` extension that uses a singular hexadecimal value to represent a color.

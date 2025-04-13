@@ -6,31 +6,13 @@
 #include <opencv2/opencv.hpp>
 
 #include "format.h"
+#include "convert.h"
 
 using namespace cv;
 
 LCI lciFormat;
 vector<string> palettes;
-vector<vector<string>> hexColors;
-string extension = ".lci";
-
-string rgbToHex(int r, int g, int b){
-    string hexVal = "";
-    string data[2];
-    data[1] = lciFormat.encodeIdx[r%16];
-    r /= 16;
-    data[0] = lciFormat.encodeIdx[r%16];
-    hexVal += data[0] + data[1];
-    data[1] = lciFormat.encodeIdx[g%16];
-    g /= 16;
-    data[0] = lciFormat.encodeIdx[g%16];
-    hexVal += data[0] + data[1];
-    data[1] = lciFormat.encodeIdx[b%16];
-    b /= 16;
-    data[0] = lciFormat.encodeIdx[b%16];
-    hexVal += data[0] + data[1];
-    return hexVal;
-}
+vector<string> hexColors;
 
 vector<string> retrievePalettes(string filename){
     vector<string> data;
@@ -61,8 +43,7 @@ vector<string> getUniquePalettes(string filename){
                 int b = bgr[0];
                 int g = bgr[1];
                 int r = bgr[2];
-                string pxHex = rgbToHex(r, g, b);
-                //cout << pxHex << endl;
+                string pxHex = Convert::RGB2HEX(r, g, b);
                 bool colorPresent = false;
                 for(auto colorHex: temp){
                     if(pxHex == colorHex) {
@@ -92,7 +73,7 @@ vector<string> convertJPGToLCI(string filename, vector<string> palettes){
                 int b = bgr[0];
                 int g = bgr[1];
                 int r = bgr[2];
-                string pxHex = rgbToHex(r, g, b);
+                string pxHex = Convert::RGB2HEX(r, g, b);
                 for(int k = 0; k < palettes.size(); k++){
                     if(pxHex == palettes[k]){
                         line += lciFormat.encodeIdx[k];
@@ -117,7 +98,7 @@ int getExtensionIdx(string filename){
 void write(string filename, vector<string> lciData, vector<string> palettes){
     ofstream encFile(filename);
     if(encFile.is_open()){
-        encFile << "." << lciFormat.id << endl;
+        encFile << lciFormat.id << endl;
         encFile << lciFormat.width << endl;
         encFile << lciFormat.height << endl;
         encFile << lciFormat.numOfColors << endl;
@@ -145,7 +126,7 @@ int main(int argc, char* argv[]){
 
     if(!imgFile.empty()){
         int extIdx = getExtensionIdx(imgFile);
-        string encodedFile = imgFile.substr(0,extIdx) + extension;
+        string encodedFile = imgFile.substr(0,extIdx) + ".lci";
         palettes = retrievePalettes(paletteFile);
         if(palettes.size() == 0) palettes = getUniquePalettes(imgFile);
         vector<string> lciData = convertJPGToLCI(imgFile, palettes);

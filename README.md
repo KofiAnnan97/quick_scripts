@@ -11,7 +11,8 @@ A collection of scripts to accomplish various tasks.
 | [PoseWithKalman](/Purdue_Research/PoseWithKalman.py) | Apply acceleration data in a Kalman filter to pose data from CSV |
 | [kalman2](/Purdue_Research/kalman2.py) | A kalman filter |
 | [covariance](/Purdue_Research/covariance.py) | Calculate covariance |
-| [Limited Color Image Encoder](/recreation/limited_color_img_encoder/encoder.cpp) | A script to convert images into a malluable representation of an image with a limited color range (used to develop dynamic images for `APGB Converter`) |
+| [Limited Color Image Encoder](/recreation/limited_color_img/src/encoder.cpp) | A script to convert images into a malluable representation of an image  based on my text file format [`LCI`](/recreation/limited_color_img/README.md) (used to develop dynamic images for `APGB Converter`) |
+| [Limited Color Image Decoder](/recreation/limited_color_img/src/decoder.cpp) | A script to convert LCI files into JPEGs |
 
 ### External Scripts Directory
 The following scripts were once included in this repository or other scripts that I find useful and revamped into their own projects.

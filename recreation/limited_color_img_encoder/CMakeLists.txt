@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 2.8)
-project("limited_color_img_encoder")
-find_package(OpenCV REQUIRED)
-include_directories(${OpenCV_INCLUDE_DIRS} )
-add_executable(lci-encoder ./encoder.cpp)
-target_link_libraries(lci-encoder ${OpenCV_LIBS} )
