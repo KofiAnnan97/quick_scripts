@@ -110,18 +110,17 @@ void write(string filename, vector<string> lciData, vector<string> palettes){
 
 int main(int argc, char* argv[]){
     string imgFile, paletteFile;
-    for (int i = 0; i < argc;) {
+    for (int i = 0; i < argc;i++) {
         if(strcmp(argv[i], "-i") == 0){
             if(i+1 >= argc) cout << "Missing image file (jpg)" << endl;
             else imgFile = argv[i+1];
-            i+=2;
+            i++;
         }
         else if(strcmp(argv[i], "-p") == 0){
             if(i+1 >= argc) cout << "Missing palette file (txt)" << endl;
             else paletteFile = argv[i+1];
-            i+=2;
+            i++;
         }
-        else i++;
     }
 
     if(!imgFile.empty()){
