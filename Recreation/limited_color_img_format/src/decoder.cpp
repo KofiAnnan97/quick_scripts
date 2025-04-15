@@ -69,7 +69,7 @@ void printLCIData(LCI lf){
 }
 
 
-void writeJPG(string outputFile, LCI lf){
+void write(string outputFile, string imgType, LCI lf){
     Mat img(lf.height, lf.width, CV_8UC3, Scalar(0, 0, 0)); 
     for(int row = 0; row < img.rows; row++){
         string colorRow = lf.imageData[row];
@@ -81,7 +81,10 @@ void writeJPG(string outputFile, LCI lf){
             }
         }
     }
-    imwrite(outputFile, img);
+    String extension = ".jpg";
+    if(imgType == "JPG") {}
+    else if(imgType == "PNG") extension = ".png";
+    imwrite(outputFile+extension, img);
 }
 
 
@@ -95,21 +98,22 @@ int getExtensionIdx(string filename){
 }
 
 int main(int argc, char* argv[]){
-    string imgFile;
-    for (int i = 0; i < argc;) {
+    string imgFile, imgType = "JPG";
+    for (int i = 0; i < argc;i++) {
         if(strcmp(argv[i], "-i") == 0){
             if(i+1 >= argc) cout << "Missing image file (jpg)" << endl;
             else imgFile = argv[i+1];
-            i+=2;
+            i++;
         }
-        else i++;
+        else if(strcmp(argv[i], "--jpg") == 0) imgType = "JPG";
+        else if(strcmp(argv[i], "--png") == 0) imgType = "PNG";
     }
 
     if(!imgFile.empty()){
         int extIdx = getExtensionIdx(imgFile);
-        string outputFile = imgFile.substr(0, extIdx) + ".jpg";
+        string outputFile = imgFile.substr(0, extIdx);
         lciFormat = getData(imgFile);
         //printLCIData(lciFormat);
-        writeJPG(outputFile, lciFormat);
+        write(outputFile, imgType, lciFormat);
     }
 }

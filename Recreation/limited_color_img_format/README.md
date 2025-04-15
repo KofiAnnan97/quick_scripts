@@ -10,25 +10,25 @@ make
 
 ## Execution
 ### Encoder
-Run this command to convert an image into a .lci file:
+Run the command below to convert an image into a .lci file. The colors will be ordered dynamically based on the sequence in which they first occur. The resulting file will be saved in the same directory as the source image.
 ```
 .\lci-encoder -i \path\to\image.png
 ``` 
-The resulting file with be saved in the same directory as the source image.
 
----------------------------
-If the colors need to be in a specific sequence use the following command:
+If the colors need to be in a specific sequence use the command below instead. The format of these colors is the same as the example of the `hexColors` values in a text file.
 ```
-.\lci-encoder -i \path\to\image.png -p \path\to\colorSequence.txt
+.\lci-encoder -i \path\to\image.png -p \path\to\colors.txt
 ```
-The format of these colors is the same as the example of the `hexColor` values but in a text file.
 
 ### Decoder
-Run this command to convert a LCI file to JPG:
+Run the command below to convert a LCI file to an image. Like the encoder the resulting output image will be saved in the same directory as the source file. 
 ```
 .\lci-decoder -i \path\to\image.lci
 ``` 
-The resulting file with be saved in the same directory as the source image.
+
+This decoder can be used to output the data in multiple image formats. Use one of the following flags in the command line to change the image format.
+- `--jpg` := Convert LCI file into an JPG image (default)
+- `--png` := Convert LCI file into a PNG image
 
 ## LCI Format
 The limited color image (LCI) format is a text file with the `.lci` extension that uses a singular hexadecimal value to represent a color.
