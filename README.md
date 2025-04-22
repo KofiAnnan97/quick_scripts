@@ -11,8 +11,8 @@ A collection of scripts to accomplish various tasks.
 | [PoseWithKalman](/PurdueResearch/PoseWithKalman.py) | `PurdueResearch` |Apply acceleration data in a Kalman filter to pose data from CSV |
 | [kalman](/PurdueResearch/kalman2.py) | `PurdueResearch` |A kalman filter |
 | [covariance](/PurdueResearch/covariance.py) | `PurdueResearch` |Calculate covariance |
-| [LCI Encoder](/Recreation/limited_color_img_format/src/encoder.cpp) | `Recreation` | A script to convert images into a malluable representation of an image  based on my text file format [`LCI`](/Recreation/limited_color_img_format/README.md) (used to develop dynamic images for `APGB Converter`) |
-| [LCI Decoder](/Recreation/limited_color_img_format/src/decoder.cpp) | `Recreation` | A script to convert LCI files into JPEGs |
+| [LCI Formatter](https://github.com/KofiAnnan97/quick_scripts/tree/master/Recreation/limited_color_img_format) | `Recreation` | A script that converts between image files and the limited color image format (.lci). This format was created to be a malluable representation of an image for the [`APGB Converter`](https://github.com/KofiAnnan97/apgb_converter) application. |
+| [Steam Sales Scrapper](https://github.com/KofiAnnan97/quick_scripts/tree/master/Recreation/steam_sales_scrapper) | `Recreation` | A script for retrieve games that have reached a certain price threshold |
 
 ### External Scripts Directory
 The following scripts were once included in this repository or other scripts that I find useful and revamped into their own projects.

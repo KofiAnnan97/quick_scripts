@@ -6,3 +6,9 @@ settings.json
 
 # Python
 *.pyc 
+
+# Rust
+*.pdb
+
+# Executable
+*.exe
