@@ -4,6 +4,7 @@ A collection of scripts to accomplish various tasks.
 ### Scripts Directory
 | Name | Directory | Programming Language | Description |
 |------|-----------|----------------------|-------------|
+| [Ping Checker](/Utility/ping_checker/ping_checker.py) | `Utility` | Python3 | Simple tool to ping a list of ip addresses. |
 | [DataManager](/PurdueResearch/DataManager.py) | `PurdueResearch` | Python3 |A simple way for converting into a more concise string packets for constrained payloads.  |
 | [GPStoCartesian](/PurdueResearch/GPStoCartesian.py) | `PurdueResearch` | Python3 | Convert GPS coordinates to Cartesian using UTM |
 | [SerialTest](/PurdueResearch/SerialTest.py) | `PurdueResearch` | Python3 | A quick script to test that the serial communication works |

@@ -1,0 +1,5 @@
+# This is the configuration file that houses all the ip addresses that the 
+# program will ping upon execution of program. Each ip address should be 
+# placed on its on separate line. 
+127.0.0.1
+www.google.com
