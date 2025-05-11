@@ -13,7 +13,7 @@ A collection of scripts to accomplish various tasks.
 | [kalman](/PurdueResearch/kalman2.py) | `PurdueResearch` | Python3 | A kalman filter |
 | [covariance](/PurdueResearch/covariance.py) | `PurdueResearch` | Python3 | Calculate covariance |
 | [LCI Formatter](https://github.com/KofiAnnan97/quick_scripts/tree/master/Recreation/limited_color_img_format) | `Recreation` | C++ | A script that converts between image files and the limited color image format (.lci). This format was created to be a malluable representation of an image for the [`APGB Converter`](https://github.com/KofiAnnan97/apgb_converter) application. |
-| [Steam Sales Scrapper](https://github.com/KofiAnnan97/quick_scripts/tree/master/Recreation/steam_sales_scrapper) | `Recreation` | Rust |A script that sends an email when Steam games are below a user-defined price threshold. |
+| [Game Sales Scrapper](https://github.com/KofiAnnan97/quick_scripts/tree/master/Recreation/game_sales_scrapper) | `Recreation` | Rust |A script that sends an email when Steam games are below a user-defined price threshold. |
 
 ### External Scripts
 The following scripts were once included in this repository or other scripts that I find useful and revamped into their own projects.
