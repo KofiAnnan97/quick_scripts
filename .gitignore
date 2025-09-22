@@ -1,5 +1,6 @@
-# VS Code
-settings.json
+# Ignore IDE Configs
+.vscode/
+.idea/
 
 # C++
 *.o
