@@ -1,5 +1,6 @@
 # VS Code
-settings.json
+.vscode
+.idea
 
 # C++
 *.o
