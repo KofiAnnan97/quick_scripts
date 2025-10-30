@@ -22,4 +22,4 @@ The following scripts were once included in this repository or other scripts tha
 | Name | Description | URL |
 |------|-------------|-----|
 | `Simple CSV Grapher` | A script that generates 2D plots, 3D plots, animated plots and live plots based on a CSV file. | [link](https://github.com/KofiAnnan97/simple_csv_grapher) |
-| `APGB Converter` | A GUI for creating Analogue Pocket GameBoy Palettes | [link](https://github.com/KofiAnnan97/apgb_converter)
+| `APGB Converter` | A GUI for creating Analogue Pocket GameBoy Palettes | [link](https://github.com/KofiAnnan97/apgb_converter) |
