@@ -1,0 +1,235 @@
+{
+    "trigger": "LB",
+    "bindings": [
+        {
+            "name": "Orbital Gatling Barrage",
+            "macro": "",
+            "output": "RIGHT DOWN LEFT UP UP"
+        },
+        {
+            "name": "Orbital Walking Barrage",
+            "macro": "",
+            "output": "RIGHT DOWN RIGHT DOWN RIGHT DOWN"
+        },
+        {
+            "name": "Orbital 120mm He Barrage",
+            "macro": "",
+            "output": "RIGHT RIGHT DOWN LEFT RIGHT DOWN"
+        },
+        {
+            "name": "Orbital Gas Strike",
+            "macro": "",
+            "output": "RIGHT RIGHT DOWN RIGHT"
+        },
+        {
+            "name": "Orbital EMS Strike",
+            "macro": "",
+            "output": "RIGHT RIGHT LEFT DOWN"
+        },
+        {
+            "name": "Orbital Smoke Strike",
+            "macro": "",
+            "output": "RIGHT RIGHT DOWN UP"
+        },
+        {
+            "name": "Orbital Airburst Strike",
+            "macro": "",
+            "output": "RIGHT RIGHT RIGHT"
+        },
+        {
+            "name": "Orbital Precision Strike",
+            "macro": "",
+            "output": "RIGHT RIGHT UP"
+        },
+        {
+            "name": "Orbital RailCannon Strike",
+            "macro": "",
+            "output": "RIGHT UP DOWN DOWN RIGHT"
+        },
+        {
+            "name": "Orbital Laser",
+            "macro": "",
+            "output": "RIGHT DOWN UP RIGHT DOWN"
+        },
+        {
+            "name": "Eagle Strafing Run",
+            "macro": "",
+            "output": "UP RIGHT RIGHT"
+        },
+        {
+            "name": "Eagle Napalm Airstrike",
+            "macro": "",
+            "output": "UP RIGHT DOWN UP"
+        },
+        {
+            "name": "Eagle 110mm Rocket Pods",
+            "macro": "",
+            "output": "UP RIGHT UP LEFT"
+        },
+        {
+            "name": "Eagle Airstrike",
+            "macro": "",
+            "output": "UP RIGHT DOWN RIGHT"
+        },
+        {
+            "name": "Eagle Smoke Strike",
+            "macro": "",
+            "output": "UP RIGHT UP DOWN"
+        },
+        {
+            "name": "Eagle Cluster Bomb",
+            "macro": "",
+            "output": "UP RIGHT DOWN DOWN RIGHT"
+        },
+        {
+            "name": "Eagle 500kg Bomb",
+            "macro": "",
+            "output": "UP RIGHT DOWN DOWN DOWN"
+        },
+        {
+            "name": "Orbital Gatling Barrage",
+            "macro": "",
+            "output": "RIGHT DOWN LEFT UP UP"
+        },
+        {
+            "name": "Grenade Launcher",
+            "macro": "",
+            "output": "DOWN LEFT UP LEFT DOWN"
+        },
+        {
+            "name": "Expendable Anti-Tank",
+            "macro": "",
+            "output": "DOWN DOWN LEFT UP RIGHT"
+        },
+        {
+            "name": "Recoilless Rifle",
+            "macro": "",
+            "output": "DOWN LEFT RIGHT RIGHT LEFT"
+        },
+        {
+            "name": "Spear",
+            "macro": "",
+            "output": "DOWN DOWN UP DOWN DOWN"
+        },
+        {
+            "name": "Railgun",
+            "macro": "",
+            "output": "DOWN RIGHT DOWN UP LEFT RIGHT"
+        },
+        {
+            "name": "Anti-Materiel Rifle",
+            "macro": "",
+            "output": "DOWN LEFT RIGHT UP DOWN"
+        },
+        {
+            "name": "AutoCannon",
+            "macro": "",
+            "output": "DOWN LEFT DOWN UP UP RIGHT"
+        },
+        {
+            "name": "Laser Cannon",
+            "macro": "",
+            "output": "DOWN LEFT DOWN UP LEFT"
+        },
+        {
+            "name": "Quasar Cannon",
+            "macro": "",
+            "output": "DOWN DOWN UP LEFT RIGHT"
+        },
+        {
+            "name": "Arc Thrower",
+            "macro": "",
+            "output": "DOWN RIGHT DOWN UP LEFT LEFT"
+        },
+        {
+            "name": "Flamethrower",
+            "macro": "",
+            "output": "DOWN LEFT UP DOWN UP"
+        },
+        {
+            "name": "Mortar Sentry",
+            "macro": "",
+            "output": "DOWN UP RIGHT RIGHT DOWN"
+        },
+        {
+            "name": "EMS Mortar Sentry",
+            "macro": "",
+            "output": "DOWN UP RIGHT DOWN RIGHT"
+        },
+        {
+            "name": "Anti-Personnel Mine",
+            "macro": "",
+            "output": "DOWN LEFT UP RIGHT"
+        },
+        {
+            "name": "Incendiary Mines",
+            "macro": "",
+            "output": "DOWN LEFT LEFT DOWN"
+        },
+        {
+            "name": "SOS Beacon",
+            "macro": "",
+            "output": "UP DOWN RIGHT UP"
+        },
+        {
+            "name": "Resupply",
+            "macro": "",
+            "output": "DOWN DOWN UP RIGHT"
+        },
+        {
+            "name": "Patriot Exosuit",
+            "macro": "",
+            "output": "LEFT DOWN RIGHT UP LEFT DOWN DOWN"
+        },
+        {
+            "name": "Machine Gun",
+            "macro": "",
+            "output": "DOWN LEFT DOWN UP RIGHT"
+        },
+        {
+            "name": "Stalwart",
+            "macro": "",
+            "output": "DOWN LEFT DOWN UP UP LEFT"
+        },
+        {
+            "name": "Heavy Machine Gun",
+            "macro": "",
+            "output": "DOWN LEFT UP DOWN DOWN"
+        },
+        {
+            "name": "HMG Emplacement",
+            "macro": "",
+            "output": "DOWN UP LEFT RIGHT RIGHT LEFT"
+        },
+        {
+            "name": "Machine Gun Sentry",
+            "macro": "",
+            "output": "DOWN UP RIGHT RIGHT UP"
+        },
+        {
+            "name": "Gatling Sentry",
+            "macro": "",
+            "output": "DOWN UP RIGHT LEFT"
+        },
+        {
+            "name": "AutoCannon Sentry",
+            "macro": "",
+            "output": "DOWN UP RIGHT UP LEFT UP"
+        },
+        {
+            "name": "Rocket Sentry",
+            "macro": "",
+            "output": "DOWN UP RIGHT RIGHT LEFT"
+        },
+        {
+            "name": "Tesla Tower",
+            "macro": "",
+            "output": "DOWN UP RIGHT UP LEFT RIGHT"
+        },
+        {
+            "name": "Shield Generator",
+            "macro": "",
+            "output": "DOWN DOWN LEFT RIGHT LEFT RIGHT"
+        }
+    ]
+}

@@ -14,11 +14,12 @@ A collection of scripts to accomplish various tasks.
 | [covariance](/PurdueResearch/covariance.py) | `PurdueResearch` | Python3 | Calculate covariance |
 | [LCI Formatter](https://github.com/KofiAnnan97/quick_scripts/tree/master/Recreation/limited_color_img_format) | `Recreation` | C++ | A script that converts between image files and the limited color image format (.lci). This format was created to be a malluable representation of an image for the [`APGB Converter`](https://github.com/KofiAnnan97/apgb_converter) application. |
 | [Code Line Count](/Utility/code_lines.sh) | `Utility` | Bash | A simple bash script that counts the approximate number of lines of code that are present within a repository. |
+| [Xbox Controller Macros](/Recreation/xbox-macros) | `Recreation` | Go | Simple program to perform macros on an Xbox controller. |
 
 ### External Scripts
 The following scripts were once included in this repository and have been split off into their own projects.
 
-| Name                  | Description                                                                                                                                                                                                                                                                             | URL                                                       |
-|-----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| `APGB Converter`      | A GUI for creating Analogue Pocket GameBoy Palettes                                                                                                                                                                                                                                     | [link](https://github.com/KofiAnnan97/apgb_converter)     |
-| `Game Sales Scrapper` | The purpose of this script is to scrape the Steam Web API and GOG API to determine whether a game has reached a specified price threshold. If one or more games fall below the user-defined limit an email will be sent containing a list of games along with their respective prices.  | [link](https://github.com/KofiAnnan97/games_sales_scrapper) |                                     
+| Name | Description | URL |
+|------|-------------|-----|
+| `APGB Converter` | A GUI for creating Analogue Pocket GameBoy Palettes | [link](https://github.com/KofiAnnan97/apgb_converter) |
+| `Game Sales Scrapper` | A tool that monitors multiple game storefronts and sends email alerts when a game reaches the user-defined price threshold. | [link](https://github.com/KofiAnnan97/games_sales_scrapper) |

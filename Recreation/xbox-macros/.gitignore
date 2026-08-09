@@ -1,0 +1,11 @@
+# Binaries
+*.exe
+
+# Build
+go.sum
+
+# User data
+*.json
+
+# Exceptions
+!helldivers*
